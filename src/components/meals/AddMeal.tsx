@@ -1,18 +1,25 @@
-"use client"
-import React from "react";
-import Image from "next/image";
-import {CirclePlus} from "lucide-react"
-
+"use client";
+import React, { useState } from "react";
+import { Plus } from "lucide-react";
+import Modal from "@/components/meals/Modal";
 
 const AddMeal = () => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleClick = () =>{
+        setIsModalOpen(isModalOpen ? false : true);
+    }
     return (
-        <div>
-            <button className="btn btn-primary w-full border-indigo-200 flex items-center">
-                <h1 className="">Add new meal</h1>
-                <CirclePlus size={18}/>
+        <div className="py-6">
+            <button onClick= {handleClick}
+                    className="flex items-center w-full py-2 px-16 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none">
+                <h1 className="font-semibold px-2">Add new meal</h1>
+                <Plus size={18}/>
             </button>
+            {isModalOpen? <Modal onClose = {() => setIsModalOpen(false)}/> : <></>}
         </div>
-    )
-}
+    );
+};
 
 export default AddMeal;

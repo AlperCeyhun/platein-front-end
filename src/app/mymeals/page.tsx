@@ -1,11 +1,12 @@
 import React from 'react';
 import AddMeal from '@/components/meals/AddMeal';
-import TestMealDataList from '@/testdata/TestMealDataList';
+import MealList from '@/components/meals/MealList';
 
 export default function Home() {
     return (
-      <div className = "flex justify-center center w-full">
+      <div className = "flex flex-col items-center w-full">
         <AddMeal/>
+        <MealList/>
       </div>
     );
   }
