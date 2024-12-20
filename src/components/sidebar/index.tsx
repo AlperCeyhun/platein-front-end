@@ -63,7 +63,7 @@ const Sidebar = () => {
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-10 p-4">
       <div className="flex flex-col space-y-10 w-full">
-      <h6 className="text-left text-2xl font-semibold text-indigo-500 font-mono py-5">
+      <h6 className="text-left text-2xl font-semibold text-indigo-500 font-mono py-5 ml-12">
         PlateIn
       </h6>
         <div className="flex flex-col space-y-2">
