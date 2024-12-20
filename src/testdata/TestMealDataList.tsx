@@ -1,21 +1,26 @@
+import Meal1 from "@/assets/meal/meal1.png";
+import Meal2 from "@/assets/meal/meal2.png";
+import Meal3 from "@/assets/meal/meal3.png";
+import Meal4 from "@/assets/meal/steak.png";
+
 const TestMealDataList = [
   {
     id: 1,
-    name: 'meal 1',
-    description: 'This is the description for meal 1.',
-    image: '@/assets/meal/meal1.png',
+    name: 'Grilled Salmon',
+    image: Meal1,
   },
   {
     id: 2,
-    name: 'meal 2',
-    description: 'This is the description for meal 2.',
-    image: '@/assets/meal/meal2.png',
+    image: Meal2,
   },
   {
     id: 3,
-    name: 'meal 3',
-    description: 'This is the description for meal 3.',
-    image: '@/assets/meal/meal3.png',
+    name: 'Hamburger',
+    image: Meal3,
   },
+  {
+    id:4,
+    name: 'Steak',
+  }
 ];
 export default TestMealDataList;
