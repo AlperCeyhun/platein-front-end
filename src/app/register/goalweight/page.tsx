@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch} from "react-redux";
+import { updateUser } from "../redux/userSlice";
+
 
 const goalweight = () => {
     const [goalweight, setGoalweight] = useState(0);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         router.push("/register/currentweight");
     };
 
-    const handleNext = () => {
-        router.push("/register/dailymeals");
+    const handleNext = async () => {
+      dispatch(updateUser({ goalweight:goalweight }));
+      router.push('/register/dailymeals');
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

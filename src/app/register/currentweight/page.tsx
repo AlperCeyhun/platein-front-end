@@ -1,19 +1,22 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch} from "react-redux";
+import { updateUser } from "../redux/userSlice";
 
 const currentweight = () => {
     const [currentweight, setCurrentweight] = useState(0);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         router.push("/register/height");
     };
 
-    const handleNext = () => {
-        router.push("/register/goalweight");
+    const handleNext = async () => {
+      dispatch(updateUser({ currentweight:currentweight }));
+      router.push('/register/goalweight');
     };
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentweight(Number(e.target.value));
         console.log("input: ",currentweight)

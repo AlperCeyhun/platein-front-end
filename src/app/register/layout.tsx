@@ -1,10 +1,15 @@
-"use client"
-import React from "react";
+"use client";
 
-export default function RootLayout({children,}: Readonly<{ children: React.ReactNode }>) {
+import React from "react";
+import { Provider } from "react-redux";
+import store from "./redux/store"; 
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>
-    {children}
-    </>
+    <Provider store={store}>
+      {children} 
+    </Provider>
   );
 }
