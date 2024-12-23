@@ -8,11 +8,15 @@ interface GridItemProps {
   isFlexCol?: boolean;
   hasSpacing?: boolean;
   hasShadow?: boolean;
+  other?: string;
+  notCenter?: boolean;
 }
 
-const GridItem: React.FC<GridItemProps> = ({ title, children, bgColor, size, isFlexCol, hasSpacing,hasShadow}) => {
+const GridItem: React.FC<GridItemProps> = ({ title, children, bgColor, size, isFlexCol, hasSpacing,hasShadow, other, notCenter}) => {
   return (
-    <div className={`flex items-center p-4 border rounded-xl
+    <div className={`flex p-4 border rounded-xl
+      ${notCenter ? "" : "items-center"}
+      ${other ? other : ""}
       ${hasShadow ? "shadow-md" : ""}
       ${hasSpacing ? "space-x-10" : ""}
       ${isFlexCol ? "flex-col" : "flex-row"}
