@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import GridItem from "../charts/GridItem";
+import GridItem from "../../../components/charts/GridItem";
 
 interface ModalProps {
   onClose: () => void;

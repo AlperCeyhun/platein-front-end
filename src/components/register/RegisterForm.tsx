@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import LabeledInput from "@/components/register/LabeledInput";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
+import { useDispatch} from "react-redux";
+import { updateUser } from "../../app/register/redux/userSlice";
 
 export default function RegisterForm() {
   
@@ -13,6 +15,7 @@ export default function RegisterForm() {
         email: "",
         password: "",
     });
+    const dispatch = useDispatch();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -36,17 +39,15 @@ export default function RegisterForm() {
         .matches(/\d/, "Password must contain at least one number"),
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        validationSchema.validate({ email: formData.email,password: formData.password })
-            .then(() => {
-                router.push('/register/success');
-            })
-            .catch(error => {
-                alert(error.errors.join(", "));
-            });
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        dispatch(updateUser({ firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password }));
+        router.push('/register/success');
     };
-
+    
     return (
         <div className="max-w-md mx-auto mt-10">
         <h1 className="text-center text-2xl font-bold mb-6">Register</h1>

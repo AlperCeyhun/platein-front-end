@@ -9,19 +9,23 @@ import DietVegan from "@/assets/diet/diet-vegan.png";
 import DietVegetarian from "@/assets/diet/diet-vegetarian.png";
 import DietPescatrian from "@/assets/diet/diet-pescatarian.png";
 import DietOther from "@/assets/diet/diet-other.png";
+import { useDispatch} from "react-redux";
+import { updateUser } from "../redux/userSlice";
+
 
 const eatingstyle = () => {
     const [eatingstyle, seteatingstyle] = useState<string>("");;
     const router = useRouter();
-
-    const handleOptionSelect = (value: string) => {
-        seteatingstyle(value);
-        console.log("Selected:", value);
-        router.push('/register/sleepingpatterns');
-    };
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         router.push('/register/dailymeals');
+    };
+
+    const handleOptionSelect = async (value: string) => {
+        seteatingstyle(value);
+        dispatch(updateUser({ eatingStyle:value }));
+        router.push('/register/sleepingpatterns');
     };
 
   return (
