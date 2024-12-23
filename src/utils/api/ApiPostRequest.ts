@@ -32,9 +32,9 @@ export const apiPostRequest = async <T = any, R = any>({
     });
 
     if (response.ok) {
-      const data: R = await response.json();  // Burada doğru türde veri alıyoruz
+      const data: R = await response.json();
       router.push(successRoute);
-      return data;  // Dönen veriyi doğru türde döndürüyoruz
+      return data;
     } else {
       const errorData = await response.json();
       throw new Error(errorData.message || "An error occurred.");

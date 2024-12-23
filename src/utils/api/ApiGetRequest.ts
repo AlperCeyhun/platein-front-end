@@ -12,7 +12,7 @@ export const apiGetRequest = async <T = any>({
   router,
   successRoute,
   onError,
-}: ApiRequestOptions<T>): Promise<T | void> => {  // API'den dönecek veriyi Promise olarak belirttik
+}: ApiRequestOptions<T>): Promise<T | void> => {
   try {
     let url = new URL(endpoint);
 

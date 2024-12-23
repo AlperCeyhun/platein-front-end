@@ -42,21 +42,6 @@ const items: ISidebarItem[] = [
     path: "/mynutrition",
     icon: ChartLine,
   },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: Settings,
-    items: [
-      {
-        name: "General",
-        path: "/settings",
-      },
-      {
-        name: "Diet Plan",
-        path: "/settings/dietplan",
-      },
-    ],
-  },
 ];
 
 const Sidebar = () => {
