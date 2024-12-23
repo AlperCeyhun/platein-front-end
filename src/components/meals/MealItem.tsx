@@ -6,8 +6,8 @@ import {FilePenLine,Trash2,FileWarning} from "lucide-react";
 interface MealItemProps {
     meal: {
       id: number;
-      name: string;
-      image: StaticImageData;
+      name?: string;
+      image?: StaticImageData;
     };
 }
   const MealItem: React.FC<MealItemProps> = ({ meal }) => {
