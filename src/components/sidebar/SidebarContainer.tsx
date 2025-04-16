@@ -14,13 +14,20 @@ export default function SidebarContainer() {
   };
 
   if (!ShouldRender) return null;
+
   return (
-    <div className="">
-      <button onClick={handleClick} className={`absolute top-8 left-4 z-50 p-2 bg-white rounded-md transform transition-transform duration-150
-        ${isOpen ? 'rotate-180' : 'border shadow-md'}`}>
+    <div className="relative">
+      <button
+        onClick={handleClick}
+        className={`absolute top-8 left-4 z-50 p-2 bg-white rounded-md transform transition-transform duration-150
+          ${isOpen ? 'rotate-180' : 'border shadow-md'}`}>
         <Menu/>
       </button>
-      {isOpen ? <Sidebar/>: <></>}
+
+      <div className={`fixed top-0 left-0 h-screen ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+          transition-transform duration-300 ease-in-out`}>
+        <Sidebar/>
+      </div>
     </div>
   );
 }
