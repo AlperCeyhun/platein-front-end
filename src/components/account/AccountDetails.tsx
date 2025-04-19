@@ -14,23 +14,30 @@ const AccountDetails = () =>{
     }
 
     return(
-        <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="justify-items-start" isFlexCol={true} notCenter={true}>
-            <h1 className="text-3xl flex mb-8 justify-center">Account Details</h1>
-            <div className="flex items-center space-x-2 mb-6">
-                <CircleUserRound width={48} height={48}/>
-                <p>{account.name}</p>
-                <p>{account.surname}</p>
+    <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="p-6" isFlexCol={true} notCenter={true}>
+        <h1 className="text-3xl font-semibold text-center mb-6">Account Details</h1>
+        <div className="flex items-center space-x-4 mb-6">
+            <CircleUserRound width={48} height={48}/>
+            <div>
+                <p className="text-lg font-medium">
+                    {account.name} {account.surname}
+                </p>
+                <p className="text-sm text-gray-500">User Profile</p>
             </div>
-            <p className="font-bold">
-                 Email: <span className="font-normal">{account.email}</span>
-            </p>
-            <p className="font-bold">
-                Password: <span className="font-normal">{account.password}</span>
-            </p>
-            <div className="mt-auto self-center">
-                <EditButton label="Edit Account" onClick={handleClick}/>
+        </div>
+        <div className="space-y-3 text-sm text-gray-700">
+            <div>
+                <p className="font-semibold">Email</p>
+                <p className="text-gray-600">{account.email}</p>
             </div>
-        </GridItem>
-    )
+            <div>
+                <p className="font-semibold">Password</p>
+                <p className="text-gray-600">{account.password}</p>
+            </div>
+        </div>
+        <div className="mt-auto pt-6 flex justify-center">
+            <EditButton label="Edit Account" onClick={handleClick} />
+        </div>
+    </GridItem>)
 }
 export default AccountDetails;

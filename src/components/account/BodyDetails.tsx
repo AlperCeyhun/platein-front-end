@@ -13,36 +13,45 @@ const BodyDetails = () =>{
     }
 
     return(
-        <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="justify-items-start" isFlexCol={true} notCenter={true}>
-            <h1 className="text-3xl flex mb-8 justify-center">Health Preferences</h1>
-            <p className="font-bold">
-                 Gender: <span className="font-normal">{account.isMale ? "Male" : "Female"}</span>
-            </p>
-            <p className="font-bold">
-                age: <span className="font-normal">{account.age}</span>
-            </p>
-            <p className="font-bold">
-                weight: <span className="font-normal">{account.weight}</span>
-            </p>
-            <p className="font-bold">
-                goalweight: <span className="font-normal">{account.goalweight}</span>
-            </p>
-            <p className="font-bold">
-                dailyMeals: <span className="font-normal">{account.dailyMeals}</span>
-            </p>
-            <p className="font-bold">
-                sleepingpattern: <span className="font-normal">{account.sleepingpattern}</span>
-            </p>
-            <p className="font-bold">
-                dailyWaterIntake: <span className="font-normal">{account.dailyWaterIntake}</span>
-            </p>
-            <p className="font-bold">
-                eatingStyle: <span className="font-normal">{account.eatingStyle}</span>
-            </p>
-            <div className="mt-auto self-center">
-                <EditButton label="Edit Details" onClick={handleClick}/>
+    <GridItem bgColor="bg-white" hasShadow={true} size="h-192 w-96" other="p-6" isFlexCol={true} notCenter={true}>
+        <h1 className="text-3xl font-semibold text-center mb-6">Health Preferences</h1>
+        <div className="space-y-3 text-sm text-gray-700">
+            <div>
+                <p className="font-semibold">Gender</p>
+                <p className="text-gray-600">{account.isMale ? "Male" : "Female"}</p>
             </div>
-        </GridItem>
-    )
+            <div>
+                <p className="font-semibold">Age</p>
+                <p className="text-gray-600">{account.age}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Weight</p>
+                <p className="text-gray-600">{account.weight}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Goal Weight</p>
+                <p className="text-gray-600">{account.goalweight}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Daily Meals</p>
+                <p className="text-gray-600">{account.dailyMeals}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Sleeping Pattern</p>
+                <p className="text-gray-600">{account.sleepingpattern}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Daily Water Intake</p>
+                <p className="text-gray-600">{account.dailyWaterIntake}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Eating Style</p>
+                <p className="text-gray-600">{account.eatingStyle}</p>
+            </div>
+        </div>
+        <div className="mt-auto pt-6 flex justify-center">
+            <EditButton label="Edit Details" onClick={handleClick} />
+        </div>
+    </GridItem>)
 }
 export default BodyDetails;
