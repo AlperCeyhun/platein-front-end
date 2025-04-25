@@ -66,20 +66,24 @@ const items: ISidebarItem[] = [
 
 const Sidebar = () => {
     return (
-		<div
-		className="h-full w-64 bg-cover bg-left shadow-lg z-10"
-		style={{ backgroundImage: `url(${backgroundImg.src})` }}>
-        <div className="flex flex-col space-y-10 w-full backdrop-blur-sm bg-white/70 p-4 rounded-xl">
-          <h6 className="text-left text-2xl font-semibold text-indigo-500 font-mono py-5 ml-12">
-            PlateIn
-          </h6>
-          <div className="flex flex-col space-y-2">
-            {items.map((item, index) => (
-              <SidebarItem key={index} item={item} />
-            ))}
-          </div>
+      <div
+      className="relative h-full w-64 bg-cover bg-left shadow-lg z-10"
+      style={{ backgroundImage: `url(${backgroundImg.src})` }}>
+      
+      <div className="absolute inset-0 bg-black/10" />
+    
+      <div className="relative flex flex-col space-y-10 w-full backdrop-blur-sm bg-white/70 p-4 rounded-xl z-10">
+        <h6 className="text-left text-2xl font-semibold text-indigo-500 font-mono py-5 ml-12">
+          PlateIn
+        </h6>
+        <div className="flex flex-col space-y-2">
+          {items.map((item, index) => (
+            <SidebarItem key={index} item={item} />
+          ))}
         </div>
       </div>
+    </div>
+    
     );
 };
 
