@@ -2,39 +2,38 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FilePenLine, Trash2, FileWarning } from "lucide-react";
-import GridItem from "../../../components/charts/GridItem";
-import Grid from "../../../components/charts/Grid";
+
+import GridItem from "@/components/charts/GridItem";
+import Grid from "@/components/charts/Grid";
+import Modal from "@/components/meals/Modal";
+
 import { apiGetRequest } from "@/utils/api/ApiGetRequest";
 import { apiPostRequest } from "@/utils/api/ApiPostRequest";
-import Modal from "./Modal";
 
 export default function Home() {
-
   const router = useRouter();
 
   const [isModalOneOpen, setIsModalOneOpen] = useState(false);
-
   const [isModalTwoOpen, setIsModalTwoOpen] = useState(false);
 
   const [modalData, setModalData] = useState<any>(null);
   const [adminInput, setAdminInput] = useState("");
-
   const [currentEndpoint, setCurrentEndpoint] = useState<string>("");
+
+  const handleModalClose = () => {
+    setIsModalOneOpen(false);
+    setIsModalTwoOpen(false);
+  };
 
   const handleModalTwoOpen = (endpoint: string) => {
     setCurrentEndpoint(endpoint);
     setIsModalTwoOpen(true);
   };
 
-  const handleAdminInputOpen = () => {
-    setIsModalTwoOpen(true);
+  const handleAdminInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAdminInput(e.target.value);
   };
 
-  const handleAdminInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAdminInput(event.target.value);
-  };
-  
   const handleButtonClick_GET = async (endpoint: string) => {
     try {
       const response = await apiGetRequest({
@@ -42,21 +41,17 @@ export default function Home() {
         router,
         successRoute: "",
       });
-  
-      console.log("Response:", response);  
-  
-      setModalData(response.result); 
+
+      console.log("Response:", response);
+      setModalData(response.result);
       setIsModalOneOpen(true);
-      
     } catch (error) {
       console.error("Error during API request", error);
     }
   };
 
   const handleAdminSubmit = async (endpoint: string) => {
-
     setIsModalTwoOpen(false);
-    console.log("Admin input:", adminInput);
 
     if (!adminInput.trim()) {
       alert("Please provide a valid input!");
@@ -64,7 +59,6 @@ export default function Home() {
     }
 
     try {
-
       const response = await apiPostRequest({
         endpoint: `http://localhost:5000/api/admin${endpoint}`,
         bodyData: { input: adminInput },
@@ -73,20 +67,29 @@ export default function Home() {
       });
 
       console.log("Response:", response.result);
-
       setModalData(response.result);
       setIsModalOneOpen(true);
-
-      setAdminInput(""); 
+      setAdminInput("");
     } catch (error) {
       console.error("Error submitting admin input", error);
     }
   };
 
-  const handleModalClose = () => {
-    setIsModalOneOpen(false);
-    setIsModalTwoOpen(false);
-  };
+  const buttonClass =
+    "text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full";
+
+  const buttons = [
+    { label: "Get Users & Meal Info for each consumed meal (>450 Cals)", onClick: () => handleButtonClick_GET('/get-high-calorie-meals') },
+    { label: "Get Users by Consumed Meal ID", onClick: () => handleModalTwoOpen('/get-users-by-meal') },
+    { label: "Get All User's Meal Info", onClick: () => handleButtonClick_GET('/get-user-meal-info') },
+    { label: "Get Meal Info with Max Calories", onClick: () => handleButtonClick_GET('/get-meal-info-with-max-cal') },
+    { label: "Get Users by Meal Count", onClick: () => handleModalTwoOpen('/get-users-by-meal-count') },
+    { label: "Get Users by Total Calorie Threshold", onClick: () => handleModalTwoOpen('/get-users-by-calorie-threshold') },
+    { label: "Get Users by Meal Calorie Range (100–500)", onClick: () => handleButtonClick_GET('/get-users-by-meal-calorie-range') },
+    { label: "Get Users with High Calorie Meal (>500 Cals)", onClick: () => handleButtonClick_GET('/get-users-by-high-calorie-meal') },
+    { label: "Get Users with No Meals", onClick: () => handleButtonClick_GET('/get-users-with-no-meals') },
+    { label: "Delete User with ID", onClick: () => handleModalTwoOpen('/delete-user-with-id') },
+  ];
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -94,105 +97,20 @@ export default function Home() {
         <h1 className="text-2xl font-semibold mb-6 text-center">Admin Dashboard</h1>
 
         <Grid templateColumns="grid-cols-2" gap={4}>
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-high-calorie-meals')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users & Meal Info for  each comsumed meal with ({'>'}450 Cals)
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={async () => {
-        handleModalTwoOpen('/get-users-by-meal')
-      }}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users by Consumed Meal ID
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-user-meal-info')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get All User's Meal Info
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-meal-info-with-max-cal')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Meal Info with Max Calories
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => {
-        handleModalTwoOpen('/get-users-by-meal-count');
-      }}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users by Meal Count
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => {
-        handleModalTwoOpen('/get-users-by-calorie-threshold');
-      }}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users by Total Calorie Threshold
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-users-by-meal-calorie-range')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users by Meal Calorie Range (between 100 & 500)
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-users-by-high-calorie-meal')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users with High Calorie Meal ({'>'}500 Cals)
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={() => handleButtonClick_GET('/get-users-with-no-meals')}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Get Users with No Meals
-    </button>
-  </GridItem>
-
-  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
-    <button
-      onClick={async () => {
-        handleModalTwoOpen('/delete-user-with-id')
-      }}
-      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
-    >
-      Delete User with ID
-    </button>
-  </GridItem>
-</Grid>
-
+          {buttons.map((btn, index) => (
+            <GridItem
+              key={index}
+              size="w-full h-[75px]"
+              bgColor="bg-white"
+              hasShadow={true}
+              horizontalWidth="w-[600px]"
+            >
+              <button onClick={btn.onClick} className={buttonClass}>
+                {btn.label}
+              </button>
+            </GridItem>
+          ))}
+        </Grid>
 
         {isModalOneOpen && (
           <Modal onClose={handleModalClose}>
@@ -202,9 +120,9 @@ export default function Home() {
                 <ul>
                   {modalData.map((item, index) => (
                     <li key={index} className="mb-4">
-                      {Object.keys(item).map((key) => (
+                      {Object.entries(item).map(([key, value]) => (
                         <div key={key}>
-                          <strong>{key}:</strong> {item[key]}
+                          <strong>{key}:</strong> {String(value)}
                         </div>
                       ))}
                     </li>
@@ -237,7 +155,6 @@ export default function Home() {
             </div>
           </Modal>
         )}
-
       </div>
     </div>
   );
