@@ -17,7 +17,7 @@ const activitylevel = () => {
     const handleOptionSelect = (value: string) => {
         setactivitylevel(Number(value));
         console.log("Selected:", value);
-        router.push('/register/sleepingpatterns');
+        router.push('/register/healthconcern');
     };
 
     const handleBack = () => {
