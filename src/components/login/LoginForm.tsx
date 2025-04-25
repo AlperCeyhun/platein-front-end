@@ -14,7 +14,7 @@ export default function LoginForm() {
 
     const handleClick = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/login/auth/check-status', {
+            const response = await fetch('http://localhost:8080/api/user/auth/check-status', {
                 method: 'POST',
                 credentials: "include",
                 headers: {

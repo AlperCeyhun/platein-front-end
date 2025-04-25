@@ -8,8 +8,8 @@ import EditButton from "./EditButton";
 import { apiGetRequest } from "@/utils/api/ApiGetRequest";
 
 interface Account {
-  Name: string;
-  Surname: string;
+  FirstName: string;
+  LastName: string;
   Email: string;
   Password: string;
 }
@@ -24,7 +24,7 @@ const AccountDetails = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/user/account-details", {
+        const response = await fetch("http://localhost:8080/api/user/account-details", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -66,7 +66,7 @@ const AccountDetails = () => {
             <CircleUserRound width={48} height={48}/>
             <div>
                 <p className="text-lg font-medium">
-                    {account.name} {account.surname}
+                    {account.FirstName} {account.LastName}
                 </p>
                 <p className="text-sm text-gray-500">User Profile</p>
             </div>
@@ -74,11 +74,11 @@ const AccountDetails = () => {
         <div className="space-y-3 text-sm text-gray-700">
             <div>
                 <p className="font-semibold">Email</p>
-                <p className="text-gray-600">{account.email}</p>
+                <p className="text-gray-600">{account.Email}</p>
             </div>
             <div>
                 <p className="font-semibold">Password</p>
-                <p className="text-gray-600">{account.password}</p>
+                <p className="text-gray-600">{account.Password}</p>
             </div>
         </div>
         <div className="mt-auto pt-6 flex justify-center">

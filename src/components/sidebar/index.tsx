@@ -69,7 +69,7 @@ const Sidebar = () => {
     <div className="h-full w-64 bg-white shadow-lg z-10 p-4">
       <div className="flex flex-col space-y-10 w-full">
         <h6 className="text-left text-2xl font-semibold text-indigo-500 font-mono py-5 ml-12">
-          PlateIn
+          Tabaq
         </h6>
         <div className="flex flex-col space-y-2">
           {items.map((item, index) => (

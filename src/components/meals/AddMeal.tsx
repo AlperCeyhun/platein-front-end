@@ -30,7 +30,7 @@ const AddMeal = () => {
       formData.append("image", selectedFile);
   
       const response = await fetch(
-        "http://localhost:5000/api/user/imageUpload/food-classifier",
+        "http://localhost:8080/api/meal/classifier",
         {
           method: "POST",
           body: formData,   
@@ -42,7 +42,7 @@ const AddMeal = () => {
       }
   
       const data = await response.json();
-      console.log("Image uploaded and processed:", data);
+      console.log("Image classified:", data);
   
       // Yemek Ekleme
       const mealData = new FormData();
@@ -54,7 +54,20 @@ const AddMeal = () => {
         console.log(`${key}:`, value);
       }
 
-      const addMealResponse = await fetch("http://localhost:5000/api/user/add-meal", {
+      const uploadResponse = await fetch("http://localhost:8080/api/meal-photo/upload", {
+        method: "POST",
+        body: mealData,
+      });
+
+      if (!uploadResponse.ok) {
+          throw new Error("Error uploading meal photo.");
+      }
+
+      const uploadData = await uploadResponse.json();
+      console.log("Uploaded Image ID:", uploadData);
+      mealData.append("photo_id", uploadData);
+
+      const addMealResponse = await fetch("http://localhost:8080/api/user/add-meal", {
         method: "POST",
         credentials: "include",
         body: mealData, 
@@ -90,7 +103,7 @@ const AddMeal = () => {
 
       {isModalOpen && (
         <Modal onClose={handleModalClose}>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center">
             <h2 className="text-lg font-semibold mb-4">Upload Meal Image</h2>
             <input
               type="file"

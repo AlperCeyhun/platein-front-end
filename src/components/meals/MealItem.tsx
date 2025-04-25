@@ -37,6 +37,7 @@ const MealItem: React.FC<MealItemProps> = ({ meal }) => {
       successRoute: "",
     });
     console.log("handleDelete");
+    window.location.reload();
   };
 
   return (
@@ -46,27 +47,24 @@ const MealItem: React.FC<MealItemProps> = ({ meal }) => {
         <img
           src={`data:image/jpeg;base64,${meal.image}`}
           alt={meal.name}
-          className="w-16 h-16 object-cover"
+          className="w-16 h-16 object-cover mr-6"
         />
       ) : (
         <FileWarning className="text-red-500" />
       )}
 
-      <h3 className="text-xl font-semibold">{meal.name || "NoName"}</h3>
+      <h3 className="text-xl font-semibold mr-6">{meal.name || "NoName"}</h3>
 
       <div className="mt-2 space-y-1">
         <p><strong>Calories:</strong> {meal.calories} kcal</p>
         <p><strong>Protein:</strong> {meal.protein} g</p>
         <p><strong>Fat:</strong> {meal.fat} g</p>
-        <p><strong>Carbohydrates:</strong> {meal.carbohydrates} g</p>
+        <p><strong>Carbohydrates:</strong> {meal.carbohydrates} g</p> 
       </div>
 
       <div className="flex justify-end space-x-2 mt-2">
-        <button className="text-blue-500" onClick={handleEdit}>
-          <FilePenLine size={24} />
-        </button>
-        <button className="text-red-500" onClick={handleDelete}>
-          <Trash2 size={24} />
+        <button className="text-red-500 ml-24" onClick={handleDelete}>
+          <Trash2 size={24}/>
         </button>
       </div>
     </GridItem>

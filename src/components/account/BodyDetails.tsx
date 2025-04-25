@@ -29,7 +29,7 @@ const BodyDetails = () =>{
     
         const fetchData = async () => {
           try {
-            const response = await fetch("http://localhost:5000/api/user/body-details", {
+            const response = await fetch("http://localhost:8080/api/user/body-details", {
               method: "GET",
               credentials: "include",
               headers: {

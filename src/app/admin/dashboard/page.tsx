@@ -94,104 +94,105 @@ export default function Home() {
         <h1 className="text-2xl font-semibold mb-6 text-center">Admin Dashboard</h1>
 
         <Grid templateColumns="grid-cols-2" gap={4}>
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-high-calorie-meals')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get High Calorie Meals
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-high-calorie-meals')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users & Meal Info for  each comsumed meal with ({'>'}450 Cals)
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-                onClick={async () => {
-                  handleModalTwoOpen('/get-users-by-meal')
-                }}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users by Meal
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={async () => {
+        handleModalTwoOpen('/get-users-by-meal')
+      }}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users by Consumed Meal ID
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-user-meal-info')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get User Meal Info
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-user-meal-info')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get All User's Meal Info
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-meal-info-with-max-cal')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Meal Info with Max Calories
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-meal-info-with-max-cal')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Meal Info with Max Calories
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => {
-                handleModalTwoOpen('/get-users-by-meal-count');
-              }}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users by Meal Count
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => {
+        handleModalTwoOpen('/get-users-by-meal-count');
+      }}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users by Meal Count
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => {
-                handleModalTwoOpen('/get-users-by-calorie-threshold');
-              }}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users by Calorie Threshold
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => {
+        handleModalTwoOpen('/get-users-by-calorie-threshold');
+      }}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users by Total Calorie Threshold
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-users-by-meal-calorie-range')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users by Meal Calorie Range
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-users-by-meal-calorie-range')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users by Meal Calorie Range (between 100 & 500)
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-users-by-high-calorie-meal')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users by High Calorie Meal
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-users-by-high-calorie-meal')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users with High Calorie Meal ({'>'}500 Cals)
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={() => handleButtonClick_GET('/get-users-with-no-meals')}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Get Users with No Meals
-            </button>
-          </GridItem>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={() => handleButtonClick_GET('/get-users-with-no-meals')}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Get Users with No Meals
+    </button>
+  </GridItem>
 
-          <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[400px]">
-            <button
-              onClick={async () => {
-                handleModalTwoOpen('/delete-user-with-id')
-              }}
-              className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4"
-            >
-              Delete User with ID
-            </button>
-          </GridItem>
-        </Grid>
+  <GridItem size="w-full h-[75px]" bgColor="bg-white" hasShadow={true} horizontalWidth="w-[600px]">
+    <button
+      onClick={async () => {
+        handleModalTwoOpen('/delete-user-with-id')
+      }}
+      className="text-red-500 hover:text-red-700 transition-all duration-200 text-sm py-2 px-4 flex justify-center items-center w-full h-full"
+    >
+      Delete User with ID
+    </button>
+  </GridItem>
+</Grid>
+
 
         {isModalOneOpen && (
           <Modal onClose={handleModalClose}>
