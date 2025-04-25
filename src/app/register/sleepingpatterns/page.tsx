@@ -14,7 +14,7 @@ const sleepingpatterns = () => {
     };
 
     const handleBack = () => {
-        router.push('/register/eatingstyle');
+        router.push('/register/activitylevel');
     };
 
   return (

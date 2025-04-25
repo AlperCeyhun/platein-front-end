@@ -17,7 +17,7 @@ const eatingstyle = () => {
     const handleOptionSelect = (value: string) => {
         seteatingstyle(value);
         console.log("Selected:", value);
-        router.push('/register/sleepingpatterns');
+        router.push('/register/activitylevel');
     };
 
     const handleBack = () => {
