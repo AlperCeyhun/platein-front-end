@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();  
   const handleClick = () => {
-      router.push("/mymeals");
+      router.push("/dietplan");
     }
     return (
       <div className="flex justify-center items-center min-h-screen flex-col">

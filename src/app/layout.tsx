@@ -4,8 +4,7 @@ import { Inter } from "next/font/google";
 import React from "react";
 import Footer from "../components/Footer";
 import SidebarContainer from "@/components/sidebar/SidebarContainer";
-import Image from "next/image";
-import backgroundImg from "@/assets/background/background1.jpg";
+import BackgroundContainer from "@/components/backgroundContainer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,13 +17,11 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
   return (
     <html lang="en">
       	<body className={`${inter.className} relative min-h-screen`}>
-        <div className="absolute inset-0 -z-10">
-        	<Image src={backgroundImg} alt="Background" fill className="object-cover" priority/>
-        </div>
+        <BackgroundContainer/>
         <div className="flex flex-col min-h-screen relative z-10">
-			<SidebarContainer />
+			<SidebarContainer/>
 			<div className="flex-grow">{children}</div>
-			<Footer />
+			<Footer/>
         </div>
     	</body>
     </html>

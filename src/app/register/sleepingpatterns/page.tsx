@@ -10,9 +10,9 @@ const sleepingpatterns = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+
     const handleBack = () => {
-      router.push('/register/eatingstyle');
-    };
+        router.push('/register/healthconcern');
 
     const handleOptionSelect = async (value: string) => {
       setSleepingPattern(value);
