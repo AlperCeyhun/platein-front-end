@@ -12,13 +12,36 @@ export default function LoginForm() {
     const inputClass = "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 mb-2"+
                        " focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm";
 
-
-    const handleClick = () => {
-        if(mail==="admin" && password==="admin"){
-            router.push("/admin/dashboard");
+    const handleClick = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/user/auth/check-status', {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: mail,
+                    password: password
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if(data.isAdmin){
+                    router.push("/admin/dashboard");
+                }else{
+                    router.push("/home");
+                }
+            } else {
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred while logging in.");
         }
-        router.push("/home");
     };
+                 
     return (
         <form>
             <div>

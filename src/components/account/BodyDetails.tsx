@@ -1,16 +1,70 @@
 "use client"
+
+import React, { useState, useEffect } from "react";
 import GridItem from "../charts/GridItem";
-import TestAccountData from "@/testdata/TestAccountData";
-import EditButton from "./EditButton";
 import { useRouter } from "next/navigation";
+import EditButton from "./EditButton";
+import { apiGetRequest } from "@/utils/api/ApiGetRequest";
+
+interface Body {
+    Gender: string; 
+    Age: number;         
+    Weight: number;      
+    Height: number;
+    WeightGoal: number; 
+    DailyMeals: string;
+    SleepingPattern: string;
+    DailyWaterIntake: string;
+    EatingStyle: string;
+}
 
 const BodyDetails = () =>{
-    const account = TestAccountData[0];
+    
+    const [body, setBody] = useState<Body | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
     const router = useRouter();
 
-    const handleClick = () =>{
-        router.push('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-    }
+     useEffect(() => {
+    
+        const fetchData = async () => {
+          try {
+            const response = await fetch("http://localhost:8080/api/user/body-details", {
+              method: "GET",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+        
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        
+            const result = await response.json();
+        
+            setBody(result);
+
+          } catch (err) {
+            console.error("Unexpected error:", err);
+            setError("An unexpected error occurred.");
+          }
+        };
+    
+        fetchData();
+      }, []);
+    
+      if (error) {
+        return <div>Error: {error}</div>;
+      }
+    
+      if (!body) {
+        return <div>Loading...</div>;
+      }
+    
+      const handleClick = () => {
+      };
+    
 
     return(
     <GridItem bgColor="bg-white" hasShadow={true} size="h-192 w-96" other="p-6" isFlexCol={true} notCenter={true}>
@@ -18,35 +72,39 @@ const BodyDetails = () =>{
         <div className="space-y-3 text-sm text-gray-700">
             <div>
                 <p className="font-semibold">Gender</p>
-                <p className="text-gray-600">{account.isMale ? "Male" : "Female"}</p>
+                <p className="text-gray-600">{body.Gender}</p>
             </div>
             <div>
                 <p className="font-semibold">Age</p>
-                <p className="text-gray-600">{account.age}</p>
+                <p className="text-gray-600">{body.Age}</p>
+            </div>
+            <div>
+                <p className="font-semibold">Height</p>
+                <p className="text-gray-600">{body.Height}</p>
             </div>
             <div>
                 <p className="font-semibold">Weight</p>
-                <p className="text-gray-600">{account.weight}</p>
+                <p className="text-gray-600">{body.Weight}</p>
             </div>
             <div>
                 <p className="font-semibold">Goal Weight</p>
-                <p className="text-gray-600">{account.goalweight}</p>
+                <p className="text-gray-600">{body.WeightGoal}</p>
             </div>
             <div>
                 <p className="font-semibold">Daily Meals</p>
-                <p className="text-gray-600">{account.dailyMeals}</p>
+                <p className="text-gray-600">{body.DailyMeals}</p>
             </div>
             <div>
                 <p className="font-semibold">Sleeping Pattern</p>
-                <p className="text-gray-600">{account.sleepingpattern}</p>
+                <p className="text-gray-600">{body.SleepingPattern}</p>
             </div>
             <div>
                 <p className="font-semibold">Daily Water Intake</p>
-                <p className="text-gray-600">{account.dailyWaterIntake}</p>
+                <p className="text-gray-600">{body.DailyWaterIntake}</p>
             </div>
             <div>
                 <p className="font-semibold">Eating Style</p>
-                <p className="text-gray-600">{account.eatingStyle}</p>
+                <p className="text-gray-600">{body.EatingStyle}</p>
             </div>
         </div>
         <div className="mt-auto pt-6 flex justify-center">

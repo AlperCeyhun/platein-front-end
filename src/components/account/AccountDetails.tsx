@@ -1,17 +1,63 @@
 "use client"
+
+import React, { useState, useEffect } from "react";
 import GridItem from "../charts/GridItem";
-import {CircleUserRound} from "lucide-react";
-import TestAccountData from "@/testdata/TestAccountData";
-import EditButton from "./EditButton";
+import { CircleUserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
+import EditButton from "./EditButton";
+import { apiGetRequest } from "@/utils/api/ApiGetRequest";
 
-const AccountDetails = () =>{
-    const account = TestAccountData[0];
-    const router = useRouter();
+interface Account {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Password: string;
+}
 
-    const handleClick = () =>{
-        router.push('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-    }
+const AccountDetails = () => {
+  const [account, setAccount] = useState<Account | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/user/account-details", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json();
+    
+        setAccount(result);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!account) {
+    return <div>Loading...</div>;
+  }
+
+  const handleClick = () => {
+  };
 
     return(
     <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="p-6" isFlexCol={true} notCenter={true}>
@@ -20,7 +66,7 @@ const AccountDetails = () =>{
             <CircleUserRound width={48} height={48}/>
             <div>
                 <p className="text-lg font-medium">
-                    {account.name} {account.surname}
+                    {account.FirstName} {account.LastName}
                 </p>
                 <p className="text-sm text-gray-500">User Profile</p>
             </div>
@@ -28,11 +74,11 @@ const AccountDetails = () =>{
         <div className="space-y-3 text-sm text-gray-700">
             <div>
                 <p className="font-semibold">Email</p>
-                <p className="text-gray-600">{account.email}</p>
+                <p className="text-gray-600">{account.Email}</p>
             </div>
             <div>
                 <p className="font-semibold">Password</p>
-                <p className="text-gray-600">{account.password}</p>
+                <p className="text-gray-600">{account.Password}</p>
             </div>
         </div>
         <div className="mt-auto pt-6 flex justify-center">

@@ -1,17 +1,21 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch} from "react-redux";
+import { updateUser } from "../redux/userSlice";
 
 const Height = () => {
   const [height, setHeight] = useState(0);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleBack = () => {
     router.push("/register/age");
   };
 
-  const handleNext = () => {
-    router.push("/register/currentweight");
+  const handleNext = async() => {
+      dispatch(updateUser({ height:height }));
+      router.push('/register/currentweight');
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
