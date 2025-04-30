@@ -11,9 +11,10 @@ const Gender = () => {
     const [gender, setGender] = useState<string>("");
     const router = useRouter();
 
-    const handleOptionSelect = (value: string) => {
-        setGender(value);
-        console.log("Selected: ", value);
+    const handleOptionSelect = (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        setGender(selectedValue);
+        console.log("Selected: ", selectedValue);
         router.push('/register/age');
     };
 

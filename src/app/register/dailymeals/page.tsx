@@ -12,7 +12,7 @@ const dailyMeals = () => {
     const [dailyMeals, setdailyMeals] = useState<number>(0);;
     const router = useRouter();
 
-    const handleOptionSelect = (value: string) => {
+    const handleOptionSelect = (value: string | string[]) => {
         setdailyMeals(Number(value));
         console.log("Selected:", value);
         router.push('/register/eatingstyle');

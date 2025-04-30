@@ -7,9 +7,10 @@ const sleepingpatterns = () => {
     const [sleepingPattern, setSleepingPattern] = useState<string>("");;
     const router = useRouter();
 
-    const handleOptionSelect = (value: string) => {
-        setSleepingPattern(value);
-        console.log("Selected:", value);
+    const handleOptionSelect = (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        setSleepingPattern(selectedValue);
+        console.log("Selected:", selectedValue);
         router.push('/register/waterintake');
     };
 

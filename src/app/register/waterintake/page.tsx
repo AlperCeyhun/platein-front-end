@@ -7,9 +7,10 @@ const waterintake = () => {
     const [waterintake, setWaterIntake] = useState<number>(0);;
     const router = useRouter();
 
-    const handleOptionSelect = (value: string) => {
-        setWaterIntake(Number(value));
-        console.log("Selected:", value);
+    const handleOptionSelect = (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        setWaterIntake(Number(selectedValue));
+        console.log("Selected:", selectedValue);
         router.push('/home');
     };
 
