@@ -1,4 +1,4 @@
-# Platein app
+# Tabaq web app
 a web app to track dietary progress and meals.
 
 to run the development server:
