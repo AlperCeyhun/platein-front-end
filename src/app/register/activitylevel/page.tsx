@@ -14,7 +14,7 @@ const activitylevel = () => {
     const [activitylevel, setactivitylevel] = useState<number>(0);
     const router = useRouter();
 
-    const handleOptionSelect = (value: string) => {
+    const handleOptionSelect = (value: string | string[]) => {
         setactivitylevel(Number(value));
         console.log("Selected:", value);
         router.push('/register/healthconcern');

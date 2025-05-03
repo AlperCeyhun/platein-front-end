@@ -10,6 +10,12 @@ const sleepingpatterns = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const handleOptionSelect = (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        setSleepingPattern(selectedValue);
+        dispatch(updateUser({ sleepingPattern:value }));
+        router.push('/register/waterintake');
+    };
 
     const handleBack = () => {
         router.push('/register/healthconcern');

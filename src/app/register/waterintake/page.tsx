@@ -11,14 +11,10 @@ const waterintake = () => {
     const [waterintake, setWaterIntake] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
-    const handleBack = () => {
-      router.push('/register/sleepingpatterns');
-    };
 
-    const userData = useSelector((state: RootState) => state.user);
-
-    const handleOptionSelect = async (value: string) => {
-        setWaterIntake(value);
+    const handleOptionSelect =  async (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        setWaterIntake(selectedValue);
         dispatch(updateUser({ waterintake:value }));
         const updatedUserData = { ...userData, waterintake: value };
         console.log('userData:', userData);
@@ -31,6 +27,13 @@ const waterintake = () => {
           successRoute: "/home",
         });
     };
+
+    const handleBack = () => {
+      router.push('/register/sleepingpatterns');
+    };
+
+    const userData = useSelector((state: RootState) => state.user);
+
 
   return (
     <div className= "flex center mt-10">
