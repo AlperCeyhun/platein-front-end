@@ -17,9 +17,10 @@ const Gender = () => {
     router.push("/register");
   };
 
-  const handleOptionSelect = async (value: string) => {
-    setGender(value);
-    dispatch(updateUser({ gender:value }));
+  const handleOptionSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    setGender(selectedValue);
+    dispatch(updateUser({ gender:selectedValue }));
     router.push('/register/age');
   };
 

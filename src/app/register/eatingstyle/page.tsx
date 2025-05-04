@@ -22,9 +22,10 @@ const eatingstyle = () => {
         router.push('/register/dailymeals');
     };
 
-    const handleOptionSelect = async (value: string) => {
-        seteatingstyle(value);
-        dispatch(updateUser({ eatingStyle:value }));
+    const handleOptionSelect = (value: string | string[]) => {
+        const selectedValue = Array.isArray(value) ? value[0] : value;
+        seteatingstyle(selectedValue);
+        dispatch(updateUser({ eatingStyle:selectedValue }));
         router.push('/register/activitylevel');
     };
 

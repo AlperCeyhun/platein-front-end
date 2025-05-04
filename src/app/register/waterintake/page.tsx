@@ -17,21 +17,28 @@ const waterintake = () => {
 
     const userData = useSelector((state: RootState) => state.user);
 
-    const handleOptionSelect = async (value: string) => {
-        setWaterIntake(value);
-        dispatch(updateUser({ waterintake:value }));
-        const updatedUserData = { ...userData, waterintake: value };
-        console.log('userData:', userData);
-        console.log('updatedUserData:', updatedUserData);
+    const handleOptionSelect = async (value: string | string[]) => {
+      const selectedValue = Array.isArray(value) ? value[0] : value;
+      setWaterIntake(selectedValue);
+      console.log("Selected:", selectedValue);
 
-        await apiRequest({
-          endpoint: "http://localhost:8080/api/user/register-complete",
-          bodyData: updatedUserData,
-          router,
-          successRoute: "/home",
-        });
-        
-    };
+      dispatch(updateUser({ waterintake: selectedValue }));
+
+      const updatedUserData = { ...userData, waterintake: selectedValue };
+      console.log('userData:', userData);
+      console.log('updatedUserData:', updatedUserData);
+
+      try {
+          await apiRequest({
+              endpoint: "http://localhost:8080/api/user/register-complete",
+              bodyData: updatedUserData,
+              router,
+              successRoute: "/home",
+          });
+      } catch (error) {
+          console.error("API request failed:", error);
+      }
+  };
 
   return (
     <div className= "flex center mt-10">

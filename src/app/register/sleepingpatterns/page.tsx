@@ -14,9 +14,11 @@ const SleepingPatterns = () => {
     router.push("/register/healthconcern");
   };
 
-  const handleOptionSelect = async (value: string) => {
-    setSleepingPattern(value);
-    dispatch(updateUser({ sleepingPattern: value }));
+  const handleOptionSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    setSleepingPattern(selectedValue);
+    console.log("Selected:", selectedValue);
+    dispatch(updateUser({ sleepingPattern: selectedValue }));
     router.push("/register/waterintake");
   };
 

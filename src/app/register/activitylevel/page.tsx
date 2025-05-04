@@ -16,7 +16,7 @@ const activitylevel = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const handleOptionSelect = async (value: string) => {
+    const handleOptionSelect = (value: string | string[]) => {
         const numericValue = Number(value);
         setactivitylevel(numericValue);
         console.log("Selected:", numericValue);

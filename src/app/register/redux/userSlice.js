@@ -11,7 +11,7 @@ const userSlice = createSlice({
     currentweight: 0,
     height: 0,
     goalweight: 0,
-    dailyMeals: "", // e.g., "THREE_MEALS", "FIVE_MEALS"
+    dailyMeals: 0,
     eatingStyle: "",
     lastName: "",
     sleepingPattern: "",
