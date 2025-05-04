@@ -11,11 +11,19 @@ const userSlice = createSlice({
     currentweight: 0,
     height: 0,
     goalweight: 0,
-    dailyMeals: "",
+    dailyMeals: "", // e.g., "THREE_MEALS", "FIVE_MEALS"
     eatingStyle: "",
     lastName: "",
     sleepingPattern: "",
     waterintake: "",
+    activityLevel: 0,
+
+    noHealthIssues: false,
+    diabetes: false,
+    highCholesterol: false,
+    hypertension: false,
+    osteoporosis: false,
+    anemia: false,
   },
   reducers: {
     updateUser: (state, action) => {

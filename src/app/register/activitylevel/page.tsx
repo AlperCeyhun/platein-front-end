@@ -8,17 +8,22 @@ import icon_scale0 from "@/assets/activitylevel/icon_scale0.webp"
 import icon_scale1 from "@/assets/activitylevel/icon_scale1.webp"
 import icon_scale2 from "@/assets/activitylevel/icon_scale2.webp"
 import icon_scale3 from "@/assets/activitylevel/icon_scale3.webp"
-
+import { updateUser } from "../redux/userSlice";
+import { useDispatch} from "react-redux";
 
 const activitylevel = () => {
     const [activitylevel, setactivitylevel] = useState<number>(0);
     const router = useRouter();
+    const dispatch = useDispatch();
 
-    const handleOptionSelect = (value: string | string[]) => {
-        setactivitylevel(Number(value));
-        console.log("Selected:", value);
+    const handleOptionSelect = async (value: string) => {
+        const numericValue = Number(value);
+        setactivitylevel(numericValue);
+        console.log("Selected:", numericValue);
+        dispatch(updateUser({ activityLevel: numericValue }));
         router.push('/register/healthconcern');
-    };
+      };
+      
 
     const handleBack = () => {
         router.push('/register/eatingstyle');

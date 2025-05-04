@@ -33,7 +33,8 @@ const AddMeal = () => {
         "http://localhost:8080/api/meal/classifier",
         {
           method: "POST",
-          body: formData,   
+          credentials: "include",
+          body: formData,
         }
       );
   
@@ -41,43 +42,20 @@ const AddMeal = () => {
         throw new Error("Error uploading image.");
       }
   
+      // Backend'den gelen yanıtı meal ve mealPhoto ile alıyoruz
       const data = await response.json();
       console.log("Image classified:", data);
   
-      // Yemek Ekleme
-      const mealData = new FormData();
-      mealData.append("food_name", data.food_name);
-      mealData.append("image", selectedFile);
-
-      console.log("FormData content:");
-      for (let [key, value] of mealData.entries()) {
-        console.log(`${key}:`, value);
-      }
-
-      const uploadResponse = await fetch("http://localhost:8080/api/meal-photo/upload", {
-        method: "POST",
-        body: mealData,
-      });
-
-      if (!uploadResponse.ok) {
-          throw new Error("Error uploading meal photo.");
-      }
-
-      const uploadData = await uploadResponse.json();
-      console.log("Uploaded Image ID:", uploadData);
-      mealData.append("photo_id", uploadData);
-
-      const addMealResponse = await fetch("http://localhost:8080/api/user/add-meal", {
-        method: "POST",
-        credentials: "include",
-        body: mealData, 
-      });
-
-      if (!addMealResponse.ok) {
-        throw new Error("Error adding meal.");
-      }
+      // Meal ve MealPhoto bilgilerini alıyoruz
+      const { meal, mealPhoto, status, message } = data;
+      console.log("Meal details:", meal);
+      console.log("MealPhoto details:", mealPhoto);
   
-      setUploadSuccess("Image uploaded and meal added successfully!");
+      if (status === "SUCCESS") {
+        setUploadSuccess("Image uploaded and meal classified successfully!");
+      } else {
+        throw new Error(message || "Failed to classify meal.");
+      }
     } catch (error) {
       console.error("Error:", error);
       setUploadSuccess("An error occurred.");
@@ -85,6 +63,7 @@ const AddMeal = () => {
       setUploading(false);
     }
   };
+  
 
   const handleModalClose = () => {
     setIsModalOpen(false);

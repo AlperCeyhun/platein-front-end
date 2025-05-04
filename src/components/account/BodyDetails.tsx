@@ -106,14 +106,6 @@ const BodyDetails = () =>{
                 <p className="font-semibold">Eating Style</p>
                 <p className="text-gray-600">{body.EatingStyle}</p>
             </div>
-            <div>
-                <p className="font-semibold">Health Concern</p>
-                <p className="text-gray-600">{account.healthConcern}</p>
-            </div>
-            <div>
-                <p className="font-semibold">Activity Level</p>
-                <p className="text-gray-600">{account.activityLevel}</p>
-            </div>
         </div>
         <div className="mt-auto pt-6 flex justify-center">
             <EditButton label="Edit Details" onClick={handleClick} />
