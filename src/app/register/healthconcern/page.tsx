@@ -9,9 +9,11 @@ import icon_diabetes from "@/assets/healthconcern/icon_diabetes.webp";
 import icon_hypertension from "@/assets/healthconcern/icon_pressure.webp";
 import icon_iron_ingot from "@/assets/healthconcern/icon_iron_ingot.webp";
 import icon_bone from "@/assets/healthconcern/icon_bone.webp";
+import * as yup from "yup";
 
 const HealthConcern = () => {
   const [healthconcerns, setHealthConcerns] = useState<string[]>([]);
+  const [validationError, setValidationError] = useState<string>("");
   const router = useRouter();
 
   const handleOptionSelect = (selectedValues: string[]) => {
@@ -21,13 +23,29 @@ const HealthConcern = () => {
       const filtered = selectedValues.filter((value) => value !== "good");
       setHealthConcerns(filtered);
     }
-    console.log("Selected:", selectedValues);
+    validationSchema
+      .validate({ healthconcerns })
+      .then(() => {
+        setValidationError("");
+        router.push("/register/sleepingpatterns");
+      })
+      .catch((validationError) => {
+        setValidationError(validationError.message);
+    });
   };
   
   const handleBack = () => {
     router.push("/register/activitylevel");
   };
-
+  
+  const validationSchema = yup.object().shape({
+    healthconcerns: yup
+      .array()
+      .of(yup.string())
+      .min(1, "Please select at least one option") // Ensure at least one option is selected
+      .required("Please select at least one option"), // Required validation
+  });
+  
   return (
     <div className="flex center mt-10">
       <Question
@@ -74,6 +92,7 @@ const HealthConcern = () => {
         onOptionSelect={handleOptionSelect}
         onBack={handleBack}
         isMultiSelect={true}
+        error={validationError}
       />
     </div>
   );

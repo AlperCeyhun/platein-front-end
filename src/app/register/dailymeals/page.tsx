@@ -7,20 +7,36 @@ import Noodle1 from "@/assets/noodle/ramen-1.png";
 import Noodle2 from "@/assets/noodle/ramen-2.png";
 import Noodle3 from "@/assets/noodle/ramen-3.png";
 import Noodle4 from "@/assets/noodle/ramen-4.png";
+import * as yup from "yup";
 
 const dailyMeals = () => {
-    const [dailyMeals, setdailyMeals] = useState<number>(0);;
+    const [dailyMeals, setdailyMeals] = useState<number>(0);
+    const [validationError, setValidationError] = useState<string>("");
     const router = useRouter();
 
     const handleOptionSelect = (value: string | string[]) => {
         setdailyMeals(Number(value));
         console.log("Selected:", value);
-        router.push('/register/eatingstyle');
+        validationSchema
+            .validate({ dailyMeals : Number(value) })
+            .then(() => {
+                setValidationError("");
+            router.push("/register/eatingstyle");
+        })
+        .catch((validationError) => {
+            setValidationError(validationError.message);
+      });
     };
 
     const handleBack = () => {
         router.push('/register/currentweight');
     };
+    const validationSchema = yup.object().shape({
+        dailyMeals: yup
+            .number()
+            .min(1, "Daily meals is required")
+            .required("Daily meals is required")
+    });
 
   return (
     <div className= "flex center mt-10">
@@ -53,7 +69,7 @@ const dailyMeals = () => {
             isSelected: dailyMeals === 4,
         }
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

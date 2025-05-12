@@ -5,22 +5,36 @@ import Question from "../../../components/register/Question";
 import { useRouter } from "next/navigation";
 import FemaleIcon from "@/assets/gender/gender_female.png";
 import MaleIcon from "@/assets/gender/gender_male.png";
-
+import * as yup from "yup";
 
 const Gender = () => {
     const [gender, setGender] = useState<string>("");
     const router = useRouter();
+    const [validationError, setValidationError] = useState<string>("");
 
     const handleOptionSelect = (value: string | string[]) => {
         const selectedValue = Array.isArray(value) ? value[0] : value;
         setGender(selectedValue);
-        console.log("Selected: ", selectedValue);
-        router.push('/register/age');
+        validationSchema
+          .validate({ gender : selectedValue })
+          .then(() => {
+              setValidationError("");
+              router.push("/register/age");
+          })
+          .catch((validationError) => {
+              setValidationError(validationError.message);
+        });
     };
 
     const handleBack = () => {
         router.push('/register');
     };
+
+    const validationSchema = yup.object().shape({
+    gender: yup
+        .string()
+        .required("Please select a gender"),
+    });
 
   return (
     <div className= "flex center mt-10">
@@ -41,7 +55,7 @@ const Gender = () => {
           isSelected: gender === "male",
         }
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

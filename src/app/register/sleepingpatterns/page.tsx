@@ -2,27 +2,41 @@
 import { useState } from "react";
 import Question from "../../../components/register/Question";
 import { useRouter } from "next/navigation";
+import * as yup from "yup";
 
 const sleepingpatterns = () => {
-    const [sleepingPattern, setSleepingPattern] = useState<string>("");;
+    const [sleepingPattern, setSleepingPattern] = useState<string>("");
+    const [validationError, setValidationError] = useState<string>("");
     const router = useRouter();
 
     const handleOptionSelect = (value: string | string[]) => {
         const selectedValue = Array.isArray(value) ? value[0] : value;
         setSleepingPattern(selectedValue);
-        console.log("Selected:", selectedValue);
-        router.push('/register/waterintake');
+        validationSchema
+            .validate({ sleepingPattern: selectedValue })
+            .then(() => {
+                setValidationError("");
+                router.push('/register/waterintake');
+            })
+            .catch((validationError) => {
+                setValidationError(validationError.message);
+            });
     };
 
     const handleBack = () => {
         router.push('/register/healthconcern');
     };
 
+    const validationSchema = yup.object().shape({
+        sleepingPattern: yup
+            .string()
+            .required("Please select an option"),
+    });
   return (
     <div className= "flex center mt-10">
         <Question
         title="Sleeping Patterns"
-        description="How would you describe how well you sleep?"
+        description="How would you describe how well you usually sleep?"
         options={[
         {
             label: "less than 5 hours",
@@ -45,7 +59,7 @@ const sleepingpatterns = () => {
             isSelected: sleepingPattern === "+8hours",
         },
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

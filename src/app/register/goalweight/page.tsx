@@ -1,22 +1,50 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
+import * as yup from "yup";
 
 const goalweight = () => {
     const [goalweight, setGoalweight] = useState(0);
-    const router = useRouter();
+    const [validationError, setError] = useState<string>("");
+    const router        = useRouter();
+    const searchParams  = useSearchParams();
+    const weightDifferenceLimit = 8;
+    const currentweight = Number(searchParams.get("currentweight"));
 
     const handleBack = () => {
         router.push("/register/currentweight");
     };
 
     const handleNext = () => {
-        router.push("/register/dailymeals");
+        validationSchema
+        .validate({ goalweight })
+        .then(() => {
+            setError("");
+            router.push("/register/dailymeals");
+        })
+        .catch((validationError) => {
+            setError(validationError.message);
+        });
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGoalweight(Number(e.target.value));
     };
+
+    const validationSchema = yup.object().shape({
+    goalweight: yup
+        .number()
+        .typeError("Goal weight must be a number")
+        .required("Goal weight is required")
+        .test(
+            "within-range",
+            `Goal weight must be within ${weightDifferenceLimit} kg of your current weight (${currentweight} kg)`,
+            (value) => {
+                if (!value || !currentweight) return true;
+                return Math.abs(value - currentweight) <= weightDifferenceLimit;
+            }
+        ),
+    });
 
     return (
     <div className="flex center mt-10">
@@ -38,8 +66,9 @@ const goalweight = () => {
             className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             value={goalweight}
             onChange={handleInputChange}
-            placeholder="I am ... years old."/>
-
+            placeholder="Enter your goal weight"/>
+        {validationError && (
+            <p className="text-red-500 text-sm mt-2">{validationError}</p>)}
         <button 
             className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none mt-4"
             onClick={handleNext}>Next
