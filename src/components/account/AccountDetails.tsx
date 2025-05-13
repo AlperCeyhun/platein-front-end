@@ -10,7 +10,7 @@ const AccountDetails = () =>{
     const router = useRouter();
 
     const handleClick = () =>{
-        router.push('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        router.push('/settings/account');
     }
 
     return(
