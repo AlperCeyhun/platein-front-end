@@ -1,7 +1,7 @@
 export default function Home() {
     return (
       <div className = "flex justify-center center">
-        Main settings page
+        Settings - Health Preferences
       </div>
     );
   }
