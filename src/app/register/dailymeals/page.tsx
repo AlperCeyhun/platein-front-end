@@ -7,12 +7,14 @@ import Noodle1 from "@/assets/noodle/ramen-1.png";
 import Noodle2 from "@/assets/noodle/ramen-2.png";
 import Noodle3 from "@/assets/noodle/ramen-3.png";
 import Noodle4 from "@/assets/noodle/ramen-4.png";
+import * as yup from "yup";
 import { useDispatch} from "react-redux";
 import { updateUser } from "../redux/userSlice";
 
 
 const dailyMeals = () => {
     const [dailyMeals, setdailyMeals] = useState<number>(0);
+    const [validationError, setValidationError] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -21,10 +23,26 @@ const dailyMeals = () => {
     }; 
 
     const handleOptionSelect = (value: string | string[]) => {
-      const dailyMealsValue = Number(value);
-      dispatch(updateUser({ dailyMeals: dailyMealsValue }));
-      router.push('/register/eatingstyle');
+        setdailyMeals(Number(value));
+        console.log("Selected:", value);
+        validationSchema
+            .validate({ dailyMeals : Number(value) })
+            .then(() => {
+              dispatch(updateUser({ dailyMeals: Number(value) }));
+              setValidationError("");
+              router.push("/register/eatingstyle");
+        })
+        .catch((validationError) => {
+            setValidationError(validationError.message);
+      });
     };
+
+    const validationSchema = yup.object().shape({
+        dailyMeals: yup
+            .number()
+            .min(1, "Daily meals is required")
+            .required("Daily meals is required")
+    });
 
   return (
     <div className= "flex center mt-10">
@@ -57,7 +75,7 @@ const dailyMeals = () => {
             isSelected: dailyMeals === 4,
         }
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

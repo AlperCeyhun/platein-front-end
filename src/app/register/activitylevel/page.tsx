@@ -8,26 +8,39 @@ import icon_scale0 from "@/assets/activitylevel/icon_scale0.webp"
 import icon_scale1 from "@/assets/activitylevel/icon_scale1.webp"
 import icon_scale2 from "@/assets/activitylevel/icon_scale2.webp"
 import icon_scale3 from "@/assets/activitylevel/icon_scale3.webp"
-import { updateUser } from "../redux/userSlice";
+import * as yup from "yup";
 import { useDispatch} from "react-redux";
+import { updateUser } from "../redux/userSlice";
 
 const activitylevel = () => {
     const [activitylevel, setactivitylevel] = useState<number>(0);
+    const [validationError, setValidationError] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
 
     const handleOptionSelect = (value: string | string[]) => {
-        const numericValue = Number(value);
-        setactivitylevel(numericValue);
-        console.log("Selected:", numericValue);
-        dispatch(updateUser({ activityLevel: numericValue }));
-        router.push('/register/healthconcern');
-      };
-      
+        setactivitylevel(Number(value));
+        validationSchema
+            .validate({ activitylevel })
+            .then(() => {
+                dispatch(updateUser({ activityLevel: Number(value) }));
+                setValidationError("");
+                router.push("/register/healthconcern");
+            })
+            .catch((validationError) => {
+                setValidationError(validationError.message);
+            });
+    };
 
     const handleBack = () => {
         router.push('/register/eatingstyle');
     };
+    const validationSchema = yup.object().shape({
+        activitylevel: yup
+            .number()
+            .min(0.1, "Activity level is required")
+            .required("Activity level is required")
+    });
 
   return (
     <div className= "flex center mt-10">
@@ -66,7 +79,7 @@ const activitylevel = () => {
             isSelected: activitylevel === 1.9,
         }
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

@@ -25,6 +25,9 @@ const BodyDetails = () =>{
 
     const router = useRouter();
 
+    const handleClick = () =>{
+        router.push('/settings/healthpreferences');
+    }
      useEffect(() => {
     
         const fetchData = async () => {
@@ -61,9 +64,6 @@ const BodyDetails = () =>{
       if (!body) {
         return <div>Loading...</div>;
       }
-    
-      const handleClick = () => {
-      };
     
 
     return(

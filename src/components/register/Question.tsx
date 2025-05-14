@@ -14,15 +14,17 @@ type QuestionStepProps = {
   onOptionSelect: (selectedValues: string[]) => void;
   onBack: () => void;
   isMultiSelect?: boolean;
+  error?: string;
 };
 
 const Question: React.FC<QuestionStepProps> = ({
-  title,
+  title = "",
   description,
   options,
   onOptionSelect,
   onBack,
   isMultiSelect = false,
+  error = "",
 }) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(
     options.filter((option) => option.isSelected).map((option) => option.value)
@@ -31,10 +33,8 @@ const Question: React.FC<QuestionStepProps> = ({
   const handleOptionClick = (value: string) => {
     if (isMultiSelect) {
       if (value === "good") {
-        // If "good" is selected, deselect all other options
         setSelectedValues(["good"]);
       } else {
-        // If any other option is selected, remove "good" and toggle the selected value
         setSelectedValues((prev) =>
           prev.includes(value)
             ? prev.filter((v) => v !== value)
@@ -78,7 +78,7 @@ const Question: React.FC<QuestionStepProps> = ({
           </button>
         ))}
       </div>
-
+      {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
       <button
         onClick={handleConfirmSelection}
         className="mt-6 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all"

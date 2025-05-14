@@ -56,8 +56,9 @@ const AccountDetails = () => {
     return <div>Loading...</div>;
   }
 
-  const handleClick = () => {
-  };
+    const handleClick = () =>{
+        router.push('/settings/account');
+    }
 
     return(
     <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="p-6" isFlexCol={true} notCenter={true}>

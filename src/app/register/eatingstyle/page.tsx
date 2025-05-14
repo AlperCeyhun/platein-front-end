@@ -9,26 +9,42 @@ import DietVegan from "@/assets/diet/diet-vegan.png";
 import DietVegetarian from "@/assets/diet/diet-vegetarian.png";
 import DietPescatrian from "@/assets/diet/diet-pescatarian.png";
 import DietOther from "@/assets/diet/diet-other.png";
+import * as yup from "yup";
 import { useDispatch} from "react-redux";
 import { updateUser } from "../redux/userSlice";
 
 
 const eatingstyle = () => {
     const [eatingstyle, seteatingstyle] = useState<string>("");;
+    const [validationError, setValidationError] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
-
-    const handleBack = () => {
-        router.push('/register/dailymeals');
-    };
 
     const handleOptionSelect = (value: string | string[]) => {
         const selectedValue = Array.isArray(value) ? value[0] : value;
         seteatingstyle(selectedValue);
-        dispatch(updateUser({ eatingStyle:selectedValue }));
-        router.push('/register/activitylevel');
+        
+        validationSchema
+            .validate({ eatingstyle : selectedValue })
+            .then(() => {
+                dispatch(updateUser({ eatingStyle:selectedValue }));
+                setValidationError("");
+            router.push("/register/activitylevel");
+        })
+        .catch((validationError) => {
+            setValidationError(validationError.message);
+      });
     };
 
+    const handleBack = () => {
+        router.push('/register/dailymeals');
+    };
+    const validationSchema = yup.object().shape({
+        eatingstyle: yup
+            .string()
+            .matches(/^(I eat everything|Keto|Vegan|Vegetarian|Pescatarian|Other)$/, "Eating style is required")
+            .required("Eating style is required")
+    });
   return (
     <div className= "flex center mt-10">
         <Question
@@ -72,7 +88,7 @@ const eatingstyle = () => {
             isSelected: eatingstyle === "diet-other",
         }
       ]}
-      onOptionSelect={handleOptionSelect} onBack={handleBack}/>
+      onOptionSelect={handleOptionSelect} onBack={handleBack} error={validationError}/>
     </div>
   );
 };

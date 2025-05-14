@@ -1,25 +1,44 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import * as yup from "yup";
 import { useDispatch} from "react-redux";
 import { updateUser } from "../redux/userSlice";
 
 const Height = () => {
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState<number | string>("");
+  const [validationError, setValidationError] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const validationSchema = yup.object().shape({
+    height: yup
+      .number()
+      .required("Height is required")
+      .min(50, "Height must be at least 50 cm")
+      .max(250, "Height must not exceed 250 cm"),
+  });
 
   const handleBack = () => {
     router.push("/register/age");
   };
 
   const handleNext = async() => {
-      dispatch(updateUser({ height:height }));
-      router.push('/register/currentweight');
+    validationSchema
+      .validate({ height })
+      .then(() => {
+          dispatch(updateUser({ height:height }));
+          setValidationError("");
+          router.push('/register/currentweight');
+      })
+      .catch((validationError) => {
+        setValidationError(validationError.message);
+      });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHeight(Number(e.target.value));
+    setHeight(e.target.value);
+    setValidationError("");
   };
 
   return (
@@ -34,20 +53,24 @@ const Height = () => {
         <h1 className="text-2xl font-bold text-gray-800 mb-2">How tall are you?</h1>
 
         <p className="text-gray-600 mb-6">
-            Height is needed to determine a safe diet plan. (cm)
+          Height is needed to determine a safe diet plan. (cm)
         </p>
-        
-        <input 
-            type="number"
-            className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={height}
-            onChange={handleInputChange}
-            placeholder="Your height in cm."/>
-            
-        <button 
-            className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none mt-4"
-            onClick={handleNext}>Next
-        </button>  
+
+        <input
+          type="number"
+          className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={height}
+          onChange={handleInputChange}
+          placeholder="Your height in cm."
+        />
+        {validationError && <p className="text-red-500 text-sm mt-2">{validationError}</p>}
+
+        <button
+          className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none mt-4"
+          onClick={handleNext}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

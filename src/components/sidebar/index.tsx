@@ -54,11 +54,11 @@ const items: ISidebarItem[] = [
     items: [
       {
         name: "General",
-        path: "/settings",
+        path: "/settings/account",
       },
       {
         name: "Diet Plan",
-        path: "/settings/dietplan",
+        path: "/settings/healthpreferences",
       },
     ],
   },
