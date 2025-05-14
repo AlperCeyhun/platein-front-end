@@ -25,7 +25,11 @@ export default function Home() {
         const data = await response.json();
 
         setNutritionData(data.nutrition);
-        setCalorieData([{ name: "Calories", value: data.calories }]);
+        setCalorieData(data.weekly_calories);
+                
+        console.log("Nutrition Data:", data.nutrition);
+        console.log("Calorie Data:", data.weekly_calories);
+
       } catch (error) {
         console.error("Error fetching nutrition data:", error);
       }
