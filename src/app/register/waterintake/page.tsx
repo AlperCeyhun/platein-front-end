@@ -14,41 +14,40 @@ const waterintake = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const userData = useSelector((state: RootState) => state.user);
+
     const handleOptionSelect = async (value: string | string[]) => {
         const selectedValue = Array.isArray(value) ? value[0] : value;
         setWaterIntake(Number(selectedValue));
 
-        validationSchema
-            .validate({ waterintake: Number(selectedValue) })
-            .then(() => {
-                dispatch(updateUser({ waterintake: selectedValue }));
-                setValidationError("");
-                router.push('/home');
-            })
-            .catch((validationError) => {
-                setValidationError(validationError.message);
-            });
-            const userData = useSelector((state: RootState) => state.user);
+        try {
+            await validationSchema.validate({ waterintake: Number(selectedValue) });
+            dispatch(updateUser({ waterintake: selectedValue }));
+            setValidationError("");
+
             const updatedUserData = { ...userData, waterintake: selectedValue };
             console.log('userData:', userData);
             console.log('updatedUserData:', updatedUserData);
-    
-      try {
-          await apiRequest({
-              endpoint: "http://localhost:8080/api/user/register-complete",
-              bodyData: updatedUserData,
-              router,
-              successRoute: "/home",
-          });
-      } catch (error) {
-          console.error("API request failed:", error);
-      }
+
+            await apiRequest({
+                endpoint: "http://localhost:8080/api/user/register-complete",
+                bodyData: updatedUserData,
+                router,
+                successRoute: "/home",
+            });
+
+        } catch (error) {
+            if (error instanceof yup.ValidationError) {
+                setValidationError(error.message);
+            } else {
+                console.error("API request failed:", error);
+            }
+        }
     };
 
     const handleBack = () => {
-      router.push('/register/sleepingpatterns');
+        router.push('/register/sleepingpatterns');
     };
-
 
     const validationSchema = yup.object().shape({
         waterintake: yup
