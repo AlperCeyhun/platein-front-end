@@ -2,10 +2,9 @@
 
 import * as yup from "yup";
 import LabeledInput from "@/components/register/LabeledInput";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GridItem from "@/components/charts/GridItem";
 import { SaveIcon } from "lucide-react";
-
 
 export default function AccountSettingsForm() {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +13,33 @@ export default function AccountSettingsForm() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/user/account-details", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setFirstName(result.FirstName || "");
+        setLastName(result.LastName || "");
+        setEmail(result.Email || "");
+      } catch (err) {
+        console.error("Unexpected error:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const validationSchema = yup.object().shape({
     firstName: yup
@@ -51,28 +77,30 @@ export default function AccountSettingsForm() {
       .string()
       .oneOf([yup.ref("newPassword"), ""], "Passwords must match"),
   });
-  
+
   const SaveChangesButton = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add validation and API call here
     console.log("Save Changes Button Clicked");
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center mt-6">
       <GridItem title="Account Settings" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-full max-w-md">
-        <form className="space-y-4 w-full">
+        <form className="space-y-4 w-full" onSubmit={SaveChangesButton}>
           <LabeledInput
             label="First Name"
             id="firstName"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
-            placeholder="First Name"
+            placeholder={firstName}
           />
           <LabeledInput
             label="Last Name"
             id="lastName"
             value={lastName}
             onChange={e => setLastName(e.target.value)}
-            placeholder="Last Name"
+            placeholder={lastName}
           />
           <LabeledInput
             label="Email"
@@ -80,7 +108,7 @@ export default function AccountSettingsForm() {
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder={email}
           />
           <LabeledInput
             label="Current Password"
@@ -88,7 +116,7 @@ export default function AccountSettingsForm() {
             type="password"
             value={currentPassword}
             onChange={e => setCurrentPassword(e.target.value)}
-            placeholder="Current Password"
+            placeholder={currentPassword}
           />
           <LabeledInput
             label="New Password"
@@ -106,9 +134,9 @@ export default function AccountSettingsForm() {
             onChange={e => setConfirmNewPassword(e.target.value)}
             placeholder="Confirm New Password"
           />
-          <button type="submit" className="w-full py-2 px-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none flex justify-center items-center" onClick={SaveChangesButton}>
+          <button type="submit" className="w-full py-2 px-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none flex justify-center items-center">
             <SaveIcon className="mr-2" size={16} />
-             Save Changes
+            Save Changes
           </button>
         </form>
       </GridItem>
