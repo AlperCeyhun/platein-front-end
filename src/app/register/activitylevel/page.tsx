@@ -19,11 +19,12 @@ const activitylevel = () => {
     const dispatch = useDispatch();
 
     const handleOptionSelect = (value: string | string[]) => {
-        setactivitylevel(Number(value));
+        const numericValue = Number(value);
+        setactivitylevel(numericValue);
         validationSchema
-            .validate({ activitylevel })
+            .validate({ activitylevel: numericValue })
             .then(() => {
-                dispatch(updateUser({ activityLevel: Number(value) }));
+                dispatch(updateUser({ activityLevel: numericValue }));
                 setValidationError("");
                 router.push("/register/healthconcern");
             })

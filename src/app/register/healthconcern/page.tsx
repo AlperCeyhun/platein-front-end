@@ -38,7 +38,7 @@ const HealthConcern = () => {
     };
   
     validationSchema
-      .validate({ healthconcerns })
+      .validate({ healthconcerns :selectedValues })
       .then(() => {
         dispatch(updateUser(payload));
         setValidationError("");
