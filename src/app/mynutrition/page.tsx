@@ -3,13 +3,12 @@ import dynamic from "next/dynamic";;
 import React, { useEffect, useState } from "react";
 import GridItem from "@/components/charts/GridItem";
 import LineChartRectangle from "@/components/charts/LineChartRectangle";
-import PieChart from "@/components/charts/PieChart";
 import TestMealDataWeekly from "@/testdata/TestMealDataWeekly";
-import emptynutritiondata from "@/testdata/EmptyNutritionData";
-
+import Emptynutritiondata from "@/testdata/EmptyNutritionData";
 
 const ShowCatGif = dynamic(() => import("@/components/mynutrition/ShowCatGif"), { ssr: false });
 const ShowCatMessage = dynamic(() => import("@/components/mynutrition/ShowCatMessage"), { ssr: false });
+const PieChart = dynamic(() => import("@/components/charts/PieChart"), { ssr: false });
 
 export default function Home() {
   const [nutritionData, setNutritionData] = useState<{ name: string; value: number }[] | null>(null);
@@ -60,7 +59,7 @@ export default function Home() {
 
       <div className="w-full">
         <GridItem title="Daily Nutrition" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-fit h-fit">
-          {nutritionData ? <PieChart data={nutritionData} /> : <PieChart data={emptynutritiondata} />}
+          {<PieChart data={nutritionData && nutritionData.length > 0 ? nutritionData : Emptynutritiondata} />}
         </GridItem>
       </div>
     </div>
