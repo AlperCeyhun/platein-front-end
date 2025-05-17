@@ -5,6 +5,7 @@ import GridItem from "@/components/charts/GridItem";
 import LineChartRectangle from "@/components/charts/LineChartRectangle";
 import PieChart from "@/components/charts/PieChart";
 import TestMealDataWeekly from "@/testdata/TestMealDataWeekly";
+import emptynutritiondata from "@/testdata/EmptyNutritionData";
 
 
 const ShowCatGif = dynamic(() => import("@/components/mynutrition/ShowCatGif"), { ssr: false });
@@ -59,7 +60,7 @@ export default function Home() {
 
       <div className="w-full">
         <GridItem title="Daily Nutrition" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-fit h-fit">
-          {nutritionData ? <PieChart data={nutritionData} /> : <p>Loading...</p>}
+          {nutritionData ? <PieChart data={nutritionData} /> : <PieChart data={emptynutritiondata} />}
         </GridItem>
       </div>
     </div>
