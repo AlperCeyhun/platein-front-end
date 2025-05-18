@@ -19,7 +19,7 @@ export default function SidebarContainer() {
     <div className="relative">
       <button
         onClick={handleClick}
-        className={`absolute top-8 left-4 z-50 p-2 bg-white rounded-md transform transition-transform duration-150
+        className={`fixed top-8 left-4 z-50 p-2 bg-white rounded-md transform transition-transform duration-150
           ${isOpen ? 'rotate-180' : 'border shadow-md'}`}>
         <Menu/>
       </button>
