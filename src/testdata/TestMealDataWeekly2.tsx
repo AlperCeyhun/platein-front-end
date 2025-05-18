@@ -1,5 +1,4 @@
 const TestMealDataWeekly2 = [
-[
 {
 "calorie_need": 0,
 "day_of_week": "FRIDAY",
@@ -35,6 +34,5 @@ const TestMealDataWeekly2 = [
 "day_of_week": "WEDNESDAY",
 "consumed_calories": 0
 }
-]
 ]
 export default TestMealDataWeekly2;
