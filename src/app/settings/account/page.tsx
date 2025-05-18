@@ -80,8 +80,40 @@ export default function AccountSettingsForm() {
 
   const SaveChangesButton = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add validation and API call here
-    console.log("Save Changes Button Clicked");
+
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      currentPassword,
+      newPassword,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/user/update-account-details", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.message || "An error occurred");
+      } else {
+        alert("Account updated successfully!");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+      }
+
+    } catch (error) {
+      console.error("Failed to update account:", error);
+      alert("Something went wrong while updating your account.");
+    }
   };
 
   return (
