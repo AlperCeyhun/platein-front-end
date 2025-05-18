@@ -45,7 +45,7 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row gap-10 w-full">
         <div className="flex-1 min-w-[60%]">
           <GridItem title="Weekly Progress" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-full h-full">
-            <LineChartRectangle data={TestMealDataWeekly} dataKeys={{ firstSeries: "value", secondSeries: "goalvalue" }} />
+            <LineChartRectangle data={calorieData ?? []} dataKeys={{ firstSeries: "value", secondSeries: "goalvalue" }} />
           </GridItem>
         </div>
 
