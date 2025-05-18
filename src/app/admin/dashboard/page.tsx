@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import GridItem from "@/components/charts/GridItem";
 import Grid from "@/components/charts/Grid";
-import Modal from "@/components/meals/Modal";
+import Modal from "@/components/admin/Modal";
 
 import { apiGetRequest } from "@/utils/api/ApiGetRequest";
 import { apiPostRequest } from "@/utils/api/ApiPostRequest";
