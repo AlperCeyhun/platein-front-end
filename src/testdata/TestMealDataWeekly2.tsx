@@ -27,7 +27,7 @@ const TestMealDataWeekly2 = [
 {
 "calorie_need": 1752,
 "day_of_week": "TUESDAY",
-"consumed_calories": 570.2
+"consumed_calories": 1570.2
 },
 {
 "calorie_need": 0,

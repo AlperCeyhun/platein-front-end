@@ -5,7 +5,9 @@ import GridItem from "@/components/charts/GridItem";
 import LineChartRectangle from "@/components/charts/LineChartRectangle";
 import { orderWeeklyData } from "@/components/charts/OrderWeeklyData";
 import Emptynutritiondata from "@/testdata/EmptyNutritionData";
-import TestMealDataWeekly2 from "@/testdata/TestMealDataWeekly2"; // <-- import your fake data
+import TestMealDataWeekly2 from "@/testdata/TestMealDataWeekly2";
+import GoalProximityChecker from "@/components/mynutrition/GoalProximityChecker";
+
 
 const ShowCatGif = dynamic(() => import("@/components/mynutrition/ShowCatGif"), { ssr: false });
 const ShowCatMessage = dynamic(() => import("@/components/mynutrition/ShowCatMessage"), { ssr: false });
@@ -64,6 +66,7 @@ export default function Home() {
 
         <div className="w-full lg:w-[30%]">
           <GridItem bgColor="bg-white" isFlexCol={true} hasShadow={true} size="w-full h-fit">
+            <GoalProximityChecker calorieData={orderedCalorieData} setIsCloseToGoal={setIsCloseToGoal} />
             <ShowCatGif isCloseToGoal={isCloseToGoal} />
             <ShowCatMessage isCloseToGoal={isCloseToGoal} />
           </GridItem>
