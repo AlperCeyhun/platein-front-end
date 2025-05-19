@@ -1,8 +1,13 @@
 "use client";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { X } from "lucide-react";
 
-const Modal = ({ onClose }: { onClose: () => void }) => {
+interface ModalProps {
+  onClose: () => void;
+  children?: ReactNode;
+}
+
+const Modal = ({ onClose, children }: ModalProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -86,7 +91,14 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
             />
           </label>
           {file && (
-            <p className="mt-2 text-sm text-gray-600">Selected file: {file.name}</p>
+            <div className="mt-4 flex flex-col items-center">
+              <p className="text-sm text-gray-600">Selected file: {file.name}</p>
+              <img
+                src={URL.createObjectURL(file)}
+                alt="Preview"
+                className="mt-2 max-w-[200px] max-h-[200px] rounded-md shadow-md"
+              />
+            </div>
           )}
         </div>
 
