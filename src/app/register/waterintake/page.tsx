@@ -29,21 +29,50 @@ const waterintake = () => {
             console.log('userData:', userData);
             console.log('updatedUserData:', updatedUserData);
 
-            await apiRequest({
-                endpoint: "http://localhost:8080/api/user/register-complete",
-                bodyData: updatedUserData,
-                router,
-                successRoute: "/home",
+            const response = await fetch("http://localhost:8080/api/user/register-complete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedUserData)
             });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.token) {
+                    console.log('saving token');
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userID", data.userID);
+
+                    // isAdmin varsa kontrol et (backend'den dönüyorsa)
+                    if (data.isAdmin) {
+                        router.push("/admin/dashboard");
+                    } else {
+                        router.push("/home");
+                    }
+                } else {
+                    setValidationError("No token received from server");
+                }
+            } else {
+                let errorMsg = "Registration failed.";
+                try {
+                    const errorData = await response.json();
+                    if (errorData && errorData.message) errorMsg = errorData.message;
+                } catch {}
+                setValidationError(errorMsg);
+            }
 
         } catch (error) {
             if (error instanceof yup.ValidationError) {
                 setValidationError(error.message);
             } else {
                 console.error("API request failed:", error);
+                setValidationError("An error occurred during registration.");
             }
         }
     };
+
 
     const handleBack = () => {
         router.push('/register/sleepingpatterns');

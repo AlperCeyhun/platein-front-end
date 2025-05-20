@@ -32,6 +32,12 @@ const Modal = ({ onClose, children }: ModalProps) => {
       return;
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to upload a meal image.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", file);
 
@@ -39,14 +45,48 @@ const Modal = ({ onClose, children }: ModalProps) => {
       setIsUploading(true);
       const response = await fetch("http://localhost:8080/api/meal/classifier", {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
         body: formData,
-        credentials: "include",
       });
 
-      if (!response.ok) throw new Error("Unexpected response from server.");
-
       const data = await response.json();
-      alert(`Prediction: ${data.prediction}`);
+      
+      if (response.ok && data.status === "SUCCESS") {
+        alert(`Meal: ${data.meal.mealName}`);
+        onClose(); // Close modal after successful classification
+      } else {
+        let errorMessage = "An error occurred during classification.";
+        
+        switch (data.status) {
+          case "UNAUTHORIZED":
+            errorMessage = "Please login to continue.";
+            break;
+          case "INVALID_PHOTO":
+            errorMessage = "Invalid photo format. Please upload a valid image.";
+            break;
+          case "MEAL_NOT_IN_PLAN":
+            errorMessage = "This meal is not in your daily meal plan.";
+            break;
+          case "ALREADY_CONSUMED":
+            errorMessage = "You have already consumed this meal today.";
+            break;
+          case "MEAL_NOT_FOUND":
+            errorMessage = "Could not identify the meal in the image.";
+            break;
+          case "USER_NOT_FOUND":
+            errorMessage = "User not found. Please login again.";
+            break;
+          case "PHOTO_NOT_FOUND":
+            errorMessage = "Could not save the photo. Please try again.";
+            break;
+          default:
+            errorMessage = data.message || errorMessage;
+        }
+        
+        alert(errorMessage);
+      }
     } catch (error) {
       console.error("Upload error", error);
       alert("An error occurred.");

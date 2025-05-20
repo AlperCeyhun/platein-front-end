@@ -19,12 +19,18 @@ export default function AccountSettingsForm() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No authentication token found");
+          return;
+        }
+
         const response = await fetch("http://localhost:8080/api/user/account-details", {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
-          },
+            "Authorization": `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
@@ -32,9 +38,13 @@ export default function AccountSettingsForm() {
         }
 
         const result = await response.json();
-        setFirstName(result.FirstName || "");
-        setLastName(result.LastName || "");
-        setEmail(result.Email || "");
+        if (result.status === "SUCCESS" && result.data) {
+          setFirstName(result.data.FirstName || "");
+          setLastName(result.data.LastName || "");
+          setEmail(result.data.Email || "");
+        } else {
+          console.error("Failed to fetch account details:", result.message);
+        }
       } catch (err) {
         console.error("Unexpected error:", err);
       }
@@ -79,6 +89,12 @@ export default function AccountSettingsForm() {
   const SaveChangesButton = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to update your account details.");
+      return;
+    }
+
     // Validate form
     try {
       await validationSchema.validate(
@@ -113,8 +129,8 @@ export default function AccountSettingsForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
-        credentials: "include",
         body: JSON.stringify(payload),
       });
 

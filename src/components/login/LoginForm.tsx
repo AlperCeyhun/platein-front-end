@@ -16,9 +16,10 @@ export default function LoginForm() {
     const handleClick = async () => {
         setErrorMessage("");
         try {
-            const response = await fetch('http://localhost:8080/api/user/auth/check-status', {
+            console.log("Attempting to login with email:", mail); // Debug log
+
+            const response = await fetch('http://localhost:8080/api/user/login', {
                 method: 'POST',
-                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -27,26 +28,39 @@ export default function LoginForm() {
                     password: password
                 }),
             });
+
+            console.log("Response status:", response.status); // Debug log
+
             if (response.ok) {
                 const data = await response.json();
-                if(data.isAdmin){
-                    router.push("/admin/dashboard");
-                }else{
-                    router.push("/home");
+                console.log("Login successful, data:", data); // Debug log
+
+                // Token'ı localStorage'a kaydet
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userID", data.userID);
+                    
+                    // Sonraki istekler için Authorization header'ını ayarla
+                    const token = data.token;
+
+                    if (data.isAdmin) {
+                        router.push("/admin/dashboard");
+                    } else {
+                        router.push("/home");
+                    }
+                } else {
+                    setErrorMessage("No token received from server");
                 }
             } else {
-                let errorMsg = "Login failed. Please check your credentials.";
-                try {
-                    const errorData = await response.json();
-                    if (errorData && errorData.message) errorMsg = errorData.message;
-                } catch {}
-                setErrorMessage(errorMsg);
+                const errorData = await response.json();
+                setErrorMessage(errorData.message || "Login failed. Please check your credentials.");
             }
         } catch (error) {
             console.error("Error during login:", error);
-            setErrorMessage("An error occurred while logging in.");
+            setErrorMessage("Cannot connect to the server. Please check if the server is running.");
         }
     };
+
                  
     return (
         <form>

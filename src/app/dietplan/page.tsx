@@ -14,12 +14,18 @@ export default function Home() {
   useEffect(() => {
     const fetchDailyCalories = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("User not authenticated");
+          return;
+        }
+
         const response = await fetch("http://localhost:8080/api/user/daily-calorie-need", {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
-          },
+            "Authorization": `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
@@ -41,12 +47,18 @@ export default function Home() {
   useEffect(() => {
     const fetchDailyMealPlan = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("User not authenticated");
+          return;
+        }
+
         const response = await fetch("http://localhost:8080/api/user/daily-meal-plan", {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
-          },
+            "Authorization": `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {

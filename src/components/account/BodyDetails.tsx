@@ -32,12 +32,18 @@ const BodyDetails = () =>{
     
         const fetchData = async () => {
           try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              setError("User not authenticated");
+              return;
+            }
+
             const response = await fetch("http://localhost:8080/api/user/body-details", {
               method: "GET",
-              credentials: "include",
               headers: {
                 "Content-Type": "application/json",
-              },
+                "Authorization": `Bearer ${token}`
+              }
             });
         
             if (!response.ok) {
@@ -45,8 +51,12 @@ const BodyDetails = () =>{
             }
         
             const result = await response.json();
-        
-            setBody(result);
+            
+            if (result.status === "ERROR") {
+              throw new Error(result.message || "Failed to fetch body details");
+            }
+            
+            setBody(result.data);
 
           } catch (err) {
             console.error("Unexpected error:", err);

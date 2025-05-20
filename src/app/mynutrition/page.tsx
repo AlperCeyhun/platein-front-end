@@ -23,9 +23,17 @@ export default function Home() {
   useEffect(() => {
     const fetchDailyNutritionData = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No authentication token found");
+          return;
+        }
+
         const response = await fetch("http://localhost:8080/api/my-nutrition/daily-stats", {
           method: "GET",
-          credentials: "include",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
         });
         const data = await response.json();
 

@@ -12,15 +12,23 @@ const MealList: React.FC = () => {
 
   useEffect(() => {
     const fetchMeals = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No authentication token found");
+        return;
+      }
+
       const response = await fetch("http://localhost:8080/api/user/past-meals", {
         method: "GET",
-        credentials: "include",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
 
       if (response.ok) {
         const data: UserPastMeal[] = await response.json();
         setMeals(data);
-        console.log(data); // Veriyi konsola yazdırıyoruz
+        console.log(data);
       }
     };
 
