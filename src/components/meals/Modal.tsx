@@ -11,6 +11,7 @@ const Modal = ({ onClose, children }: ModalProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -28,13 +29,13 @@ const Modal = ({ onClose, children }: ModalProps) => {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file first.");
+      setFeedback({ type: "error", message: "Please select a file first." });
       return;
     }
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please login to upload a meal image.");
+      setFeedback({ type: "error", message: "Please login to upload a meal image." });
       return;
     }
 
@@ -52,13 +53,15 @@ const Modal = ({ onClose, children }: ModalProps) => {
       });
 
       const data = await response.json();
-      
+
       if (response.ok && data.status === "SUCCESS") {
-        alert(`Meal: ${data.meal.mealName}`);
-        onClose(); // Close modal after successful classification
+        setFeedback({ type: "success", message: `Meal: ${data.meal.mealName}` });
+        setTimeout(() => {
+          setFeedback(null);
+          onClose();
+        }, 1500);
       } else {
         let errorMessage = "An error occurred during classification.";
-        
         switch (data.status) {
           case "UNAUTHORIZED":
             errorMessage = "Please login to continue.";
@@ -84,12 +87,11 @@ const Modal = ({ onClose, children }: ModalProps) => {
           default:
             errorMessage = data.message || errorMessage;
         }
-        
-        alert(errorMessage);
+        setFeedback({ type: "error", message: errorMessage });
       }
     } catch (error) {
       console.error("Upload error", error);
-      alert("An error occurred.");
+      setFeedback({ type: "error", message: "An error occurred." });
     } finally {
       setIsUploading(false);
     }
@@ -149,6 +151,17 @@ const Modal = ({ onClose, children }: ModalProps) => {
         >
           {isUploading ? "Uploading..." : "Upload & Classify"}
         </button>
+        {feedback && (
+          <div
+            className={`mt-4 p-3 rounded text-center text-sm ${
+              feedback.type === "success"
+                ? "bg-green-100 text-green-800 border border-green-300"
+                : "bg-red-100 text-red-800 border border-red-300"
+            }`}
+          >
+            {feedback.message}
+          </div>
+        )}
       </div>
     </div>
   );
