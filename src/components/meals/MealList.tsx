@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import MealItem from "@/components/meals/MealItem";
 
 interface UserPastMeal {
   mealName: string;
-  photoData: number[]; // byte array
+  photoData: string;
+  calories: number;
 }
 
 const MealList: React.FC = () => {
@@ -35,7 +37,21 @@ const MealList: React.FC = () => {
     fetchMeals();
   }, []);
 
-  return null; // Render edilen hiçbir şey yok
+  return (
+    <div className="flex flex-col items-center min-h-screen">
+      <div className="w-full max-w-xl">
+        <h1 className="text-2xl font-bold text-left mb-2">Meals</h1>
+        <hr className="border-t-2 border-black mb-8" />
+        <ul>
+          {meals.map((meal, idx) => (
+            <li key={idx} className="py-1">
+              <MealItem meal={meal} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default MealList;
