@@ -17,7 +17,7 @@ export default function login() {
             <div className="flex justify-center">
               <img src="../favicon.ico"/>
             </div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Platein Diet Tracker</h2>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Tabaq Diet Tracker</h2>
           </div>
           <LoginForm/>
           <p className="text-center text-sm text-gray-600">
