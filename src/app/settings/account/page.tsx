@@ -4,8 +4,7 @@ import * as yup from "yup";
 import LabeledInput from "@/components/register/LabeledInput";
 import React, { useState, useEffect } from "react";
 import GridItem from "@/components/charts/GridItem";
-import { SaveIcon,Settings2 } from "lucide-react";
-
+import { SaveIcon, Settings2 } from "lucide-react";
 
 export default function AccountSettingsForm() {
   const [firstName, setFirstName] = useState("");
@@ -102,9 +101,11 @@ export default function AccountSettingsForm() {
           firstName,
           lastName,
           email,
-          currentPassword,
-          newPassword,
-          confirmNewPassword,
+          ...(showPasswordFields && {
+            currentPassword,
+            newPassword,
+            confirmNewPassword,
+          }),
         },
         { abortEarly: false }
       );
