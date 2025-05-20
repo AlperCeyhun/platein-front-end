@@ -14,13 +14,14 @@ export default function AccountSettingsForm() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          console.error("No authentication token found");
+          setFeedback({ type: "error", message: "No authentication token found" });
           return;
         }
 
@@ -42,10 +43,10 @@ export default function AccountSettingsForm() {
           setLastName(result.data.LastName || "");
           setEmail(result.data.Email || "");
         } else {
-          console.error("Failed to fetch account details:", result.message);
+          setFeedback({ type: "error", message: result.message || "Failed to fetch account details" });
         }
       } catch (err) {
-        console.error("Unexpected error:", err);
+        setFeedback({ type: "error", message: "Unexpected error occurred while fetching account details." });
       }
     };
 
@@ -90,11 +91,10 @@ export default function AccountSettingsForm() {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please login to update your account details.");
+      setFeedback({ type: "error", message: "Please login to update your account details." });
       return;
     }
 
-    // Validate form
     try {
       await validationSchema.validate(
         {
@@ -110,19 +110,18 @@ export default function AccountSettingsForm() {
         { abortEarly: false }
       );
     } catch (validationError: any) {
-      alert(validationError.errors?.[0] || "Validation error");
+      setFeedback({ type: "error", message: validationError.errors?.[0] || "Validation error" });
       return;
     }
 
-    // Prepare payload
     const payload: any = {
-      firstName,
-      lastName,
-      email,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email,
     };
-    if (showPasswordFields) {
-      payload.currentPassword = currentPassword;
-      payload.newPassword = newPassword;
+    if (showPasswordFields && currentPassword && newPassword) {
+      payload.CurrentPassword = currentPassword;
+      payload.NewPassword = newPassword;
     }
 
     try {
@@ -138,17 +137,16 @@ export default function AccountSettingsForm() {
       const result = await response.json();
 
       if (!response.ok) {
-        alert(result.message || "An error occurred");
+        setFeedback({ type: "error", message: result.message || "An error occurred" });
       } else {
-        alert("Account updated successfully!");
+        setFeedback({ type: "success", message: "Account updated successfully!" });
         setCurrentPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
         setShowPasswordFields(false);
       }
     } catch (error) {
-      console.error("Failed to update account:", error);
-      alert("Something went wrong while updating your account.");
+      setFeedback({ type: "error", message: "Something went wrong while updating your account." });
     }
   };
 
@@ -219,6 +217,17 @@ export default function AccountSettingsForm() {
             <SaveIcon className="mr-2" size={16} />
             Save Changes
           </button>
+          {feedback && (
+            <div
+              className={`mt-4 p-3 rounded text-center text-sm ${
+                feedback.type === "success"
+                  ? "bg-green-100 text-green-800 border border-green-300"
+                  : "bg-red-100 text-red-800 border border-red-300"
+              }`}
+            >
+              {feedback.message}
+            </div>
+          )}
         </form>
       </GridItem>
     </div>
