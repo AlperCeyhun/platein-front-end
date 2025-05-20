@@ -107,7 +107,7 @@ export default function Home() {
                   <ul>
                     {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => {
                       const imageSrc = meal.defaultImage
-                        ? `data:image/png;base64,${meal.defaultImage}`
+                        ? `data:image/jpeg;base64,${meal.defaultImage}`
                         : meal4;
                       return (
                         <li key={meal.mealID || mealIdx} className="flex items-center mb-2">
