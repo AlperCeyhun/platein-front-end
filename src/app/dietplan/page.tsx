@@ -79,7 +79,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-row justify-center items-center pt-6 w-full">
-      {/* Left Section */}
       <div className="flex flex-col items-center">
         <GridItem bgColor="bg-white" hasShadow={true} size="h-auto w-auto" other="p-4" isFlexCol={false} notCenter={true}>
           <div className="flex items-center justify-between w-full">
@@ -96,8 +95,6 @@ export default function Home() {
           </div>
         </GridItem>
       </div>
-
-      {/* Right Section */}
       <div className="ml-8">
         <GridItem bgColor="bg-white" hasShadow={true} size="h-full w-full" other="p-6" isFlexCol={true} notCenter={true}>
           <h2 className="text-xl font-semibold mb-4">Meal Plan</h2>
@@ -108,13 +105,18 @@ export default function Home() {
                 <div key={menu.id || menuIdx} className="mb-6">
                   <h3 className="font-semibold text-lg mb-2">Menu {menuIdx + 1}</h3>
                   <ul>
-                    {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => (
-                      <li key={meal.mealID || mealIdx} className="flex items-center mb-2">
-                        <Image src={meal4} alt="Meal" width={40} height={40} className="rounded mr-3" />
-                        <span className="font-medium mr-2">{meal.mealName}</span>
-                        <span className="text-gray-500">({meal.calories} kcal)</span>
-                      </li>
-                    ))}
+                    {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => {
+                      const imageSrc = meal.defaultImage
+                        ? `data:image/png;base64,${meal.defaultImage}`
+                        : meal4;
+                      return (
+                        <li key={meal.mealID || mealIdx} className="flex items-center mb-2">
+                          <Image src={imageSrc} alt="Meal" width={40} height={40} className="rounded mr-3" />
+                          <span className="font-medium mr-2">{meal.mealName}</span>
+                          <span className="text-gray-500">({meal.calories} kcal)</span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))
