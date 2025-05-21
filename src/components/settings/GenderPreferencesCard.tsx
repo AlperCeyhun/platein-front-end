@@ -16,14 +16,7 @@ const GenderPreferencesCard: React.FC<GenderPreferencesCardProps> = ({
   onOptionSelect,
   validationError,
 }) => (
-  <GridItem
-    title="Health Preferences"
-    isFlexCol={true}
-    hasShadow={true}
-    bgColor="bg-white"
-    size="w-full max-w-md"
-    other="mt-10"
-  >
+  <div>
     <p className="pt-4 pb-4">
       You can reconfigure your health preferences in this section.
     </p>
@@ -48,7 +41,7 @@ const GenderPreferencesCard: React.FC<GenderPreferencesCardProps> = ({
       error={validationError}
       hasConfirm={false}
     />
-  </GridItem>
+  </div>
 );
 
 export default GenderPreferencesCard;
