@@ -12,9 +12,10 @@ type QuestionStepProps = {
   description: string;
   options: ButtonOption[];
   onOptionSelect: (selectedValues: string[]) => void;
-  onBack: () => void;
+  onBack?: () => void;
   isMultiSelect?: boolean;
   error?: string;
+  hasConfirm?: boolean
 };
 
 const Question: React.FC<QuestionStepProps> = ({
@@ -24,6 +25,7 @@ const Question: React.FC<QuestionStepProps> = ({
   onOptionSelect,
   onBack,
   isMultiSelect = false,
+  hasConfirm = true,
   error = "",
 }) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(
@@ -53,9 +55,10 @@ const Question: React.FC<QuestionStepProps> = ({
   return (
     <div className="w-full max-w-lg mx-auto text-center bg-white shadow rounded-lg p-6">
       <div className="flex items-center space-x-2 mb-4">
+        {onBack && 
         <button onClick={onBack} className="text-gray-500 hover:text-gray-800 focus:outline-none">
           &larr; Back
-        </button>
+        </button>}
       </div>
 
       <h1 className="text-2xl font-bold text-gray-800 mb-2">{title}</h1>
@@ -79,12 +82,13 @@ const Question: React.FC<QuestionStepProps> = ({
         ))}
       </div>
       {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+      {hasConfirm && 
       <button
         onClick={handleConfirmSelection}
         className="mt-6 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all"
       >
         Confirm
-      </button>
+      </button>}
     </div>
   );
 };
