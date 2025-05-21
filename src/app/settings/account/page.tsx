@@ -82,7 +82,7 @@ export default function AccountSettingsForm() {
         .matches(/\d/, "New password must contain at least one number"),
       confirmNewPassword: yup
         .string()
-        .oneOf([yup.ref("newPassword"), ""], "Passwords must match"),
+        .oneOf([yup.ref("newPassword"), ""], "New passwords must match"),
     }),
   });
 
@@ -115,14 +115,15 @@ export default function AccountSettingsForm() {
     }
 
     const payload: any = {
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email,
+      firstName,
+      lastName,
+      email,
     };
+    
     if (showPasswordFields && currentPassword && newPassword) {
-      payload.CurrentPassword = currentPassword;
-      payload.NewPassword = newPassword;
-    }
+      payload.currentPassword = currentPassword;
+      payload.newPassword = newPassword;
+    }
 
     try {
       const response = await fetch("http://localhost:8080/api/user/update-account-details", {
