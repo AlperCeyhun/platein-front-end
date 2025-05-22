@@ -11,7 +11,6 @@ export interface Body {
   DailyWaterIntake: string;
   EatingStyle: string;
   ActivityLevel: number;
-
   NoHealthIssues: boolean;
   Diabetes: boolean;
   HighCholesterol: boolean;
