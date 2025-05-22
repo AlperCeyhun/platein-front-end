@@ -8,6 +8,7 @@ import AgePreferencesCard from "@/components/settings/AgePreferencesCard";
 import HeightPreferencesCard from "@/components/settings/HeightPreferencesCard";
 import WeightPreferencesCard from "@/components/settings/WeightPreferencesCard";
 import WeightGoalPreferencesCard from "@/components/settings/WeightGoalPreferencesCard";
+import DailyMealPreferencesCard from "@/components/settings/DailyMealPreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
 
@@ -21,6 +22,7 @@ export default function Home() {
   const [height, setHeight] = useState<number | string>(body?.Height || "");
   const [weight, setWeight] = useState<number | string>(body?.Weight || "");
   const [weightGoal, setweightGoal] = useState<number | string>(body?.WeightGoal || "");
+  const [dailyMeals, setDailyMeals] = useState<number | string>(body?.DailyMeals || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -30,6 +32,7 @@ export default function Home() {
       if (body.Height) setHeight(body.Height);
       if (body.Weight) setWeight(body.Weight);
       if (body.WeightGoal) setweightGoal(body.WeightGoal);
+      if (body.DailyMeals) setDailyMeals(body.DailyMeals);
     }
   }, [body]);
 
@@ -50,6 +53,10 @@ export default function Home() {
       .required("Weight is required")
       .min(30, "Weight must be at least 30 kg")
       .max(200, "Weight must not exceed 200 kg"),
+    dailyMeals: yup
+      .number()
+      .min(1, "Daily meals is required")
+      .required("Daily meals is required")
   });
 
   const handleGenderSelect = (value: string | string[]) => {
@@ -95,6 +102,16 @@ export default function Home() {
     .catch((validationError) => setValidationError(validationError.message));
   };
 
+  const handleDailyMealsSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    const newMeals = Number(selectedValue);
+    setDailyMeals(newMeals);
+    validationSchema
+      .validate({ gender, age, height, weight, weightGoal, dailyMeals: newMeals })
+      .then(() => setValidationError(""))
+      .catch((validationError) => setValidationError(validationError.message));
+  };
+
   if (error) {
     return <div className="text-white text-center mt-10">
       Something went wrong. Please try again later.
@@ -110,7 +127,8 @@ export default function Home() {
           <AgePreferencesCard     age={age}       onAgeChange={handleAgeSelect}       validationError={validationError}/>
           <HeightPreferencesCard  height={height} onHeightChange={handleHeightSelect} validationError={validationError}/>
           <WeightPreferencesCard  weight={weight} onWeightChange={handleWeightSelect} validationError={validationError}/>
-          <WeightGoalPreferencesCard goalWeight={weightGoal}onGoalWeightChange={handleWeightGoalSelect}validationError={validationError}/>
+          <WeightGoalPreferencesCard goalWeight={weightGoal}    onGoalWeightChange={handleWeightGoalSelect} validationError={validationError}/>
+          <DailyMealPreferencesCard dailyMeals={Number(dailyMeals)} onOptionSelect={handleDailyMealsSelect} validationError={validationError}/>
           </GridItem>
       </div>
     </div>
