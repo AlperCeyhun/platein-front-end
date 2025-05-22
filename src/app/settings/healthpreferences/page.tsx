@@ -13,9 +13,9 @@ import EatingStylePreferencesCard from "@/components/settings/EatingStylePrefere
 import ActivityLevelPreferencesCard from "@/components/settings/ActivityLevelPreferencesCard";
 import HealthConcernPreferencesCard from "@/components/settings/HealthConcernPreferencesCard";
 import SleepingPatternPreferencesCard from "@/components/settings/SleepingPatternPreferencesCard";
+import WaterIntakePreferencesCard from "@/components/settings/WaterIntakePreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
-
 
 
 export default function Home() {
@@ -31,6 +31,7 @@ export default function Home() {
   const [activityLevel, setActivityLevel] = useState<number | string>(body?.ActivityLevel || "");
   const [healthConcerns, setHealthConcerns] = useState<string[]>([]);
   const [sleepingPattern, setSleepingPattern] = useState<string>(body?.SleepingPattern || "");
+  const [waterIntake, setWaterIntake] = useState<number | string>(body?.DailyWaterIntake || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export default function Home() {
       if (body.ActivityLevel) setActivityLevel(body.ActivityLevel);
       //if (body.HealthConcerns) setHealthConcerns(body.HealthConcerns);
       if (body.SleepingPattern) setSleepingPattern(capitalize(body.SleepingPattern.trim()))
+      if (body.DailyWaterIntake) setWaterIntake(body.DailyWaterIntake);
     };
   }, [body]);
 
@@ -85,6 +87,11 @@ export default function Home() {
     sleepingPattern: yup
       .string()
       .required("Please select an option"),
+    waterintake: yup
+      .number()
+      .required("Please select an option")
+      .typeError("Please select an option")
+      .min(0, "Please select an option"),
   });
 
   const handleGenderSelect = (value: string | string[]) => {
@@ -182,6 +189,16 @@ export default function Home() {
         setValidationError(validationError.message);
       });
   };
+  const handleWaterIntakeSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    setWaterIntake(selectedValue);
+    validationSchema
+      .validate({ waterIntake: selectedValue })
+      .then(() => setValidationError(""))
+      .catch((validationError) => {
+        setValidationError(validationError.message);
+      });
+  }
 
   if (error) {
     return <div className="text-white text-center mt-10">
@@ -204,6 +221,7 @@ export default function Home() {
           <ActivityLevelPreferencesCard activityLevel={Number(activityLevel)}onOptionSelect={handleActivityLevelSelect} validationError={validationError}/>
           <HealthConcernPreferencesCard healthConcerns={healthConcerns}     onOptionSelect={handleHealthConcernsSelect} validationError={validationError}/>
           <SleepingPatternPreferencesCard sleepingPattern={sleepingPattern}onOptionSelect={handleSleepingPatternSelect} validationError={validationError}/>
+          <WaterIntakePreferencesCard waterIntake={Number(waterIntake)} onOptionSelect={handleWaterIntakeSelect} validationError={validationError}/>
         </GridItem>
       </div>
     </div>
