@@ -39,18 +39,16 @@ export default function Home() {
 
         setNutritionData(data.nutrition);
 
-        // If weekly_calories is empty or not present, use fake data
         if (data.weekly_calories && Array.isArray(data.weekly_calories) && data.weekly_calories.length > 0) {
           setCalorieData(data.weekly_calories);
         } else {
-          setCalorieData(TestMealDataWeekly2); // fallback to fake data
+          setCalorieData(TestMealDataWeekly2);
         }
 
         console.log("Nutrition Data:", data.nutrition);
         console.log("Calorie Data:", data.weekly_calories);
       } catch (error) {
-        console.error("Error fetching nutrition data:", error);
-        // On error, also fallback to fake data
+        console.log("Error fetching nutrition data:", error);
         setCalorieData(TestMealDataWeekly2);
       }
     };
