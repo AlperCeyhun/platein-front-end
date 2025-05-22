@@ -10,6 +10,7 @@ export interface Body {
   SleepingPattern: string;
   DailyWaterIntake: string;
   EatingStyle: string;
+  ActivityLevel: number;
 }
 
 export function useBodyDetails() {
@@ -44,7 +45,7 @@ export function useBodyDetails() {
         }
 
         setBody(result.data);
-
+        console.log("Body details fetched successfully:", result.data);
       } catch (err) {
         console.error("Unexpected error:", err);
         setError("An unexpected error occurred.");

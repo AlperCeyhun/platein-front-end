@@ -10,6 +10,7 @@ import WeightPreferencesCard from "@/components/settings/WeightPreferencesCard";
 import WeightGoalPreferencesCard from "@/components/settings/WeightGoalPreferencesCard";
 import DailyMealPreferencesCard from "@/components/settings/DailyMealPreferencesCard";
 import EatingStylePreferencesCard from "@/components/settings/EatingStylePreferencesCard";
+import ActivityLevelPreferencesCard from "@/components/settings/ActivityLevelPreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
 
@@ -25,6 +26,7 @@ export default function Home() {
   const [weightGoal, setweightGoal] = useState<number | string>(body?.WeightGoal || "");
   const [dailyMeals, setDailyMeals] = useState<number | string>(body?.DailyMeals || "");
   const [eatingStyle, setEatingStyle] = useState<string>(body?.EatingStyle || "");
+  const [activityLevel, setActivityLevel] = useState<number | string>(body?.ActivityLevel || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -35,7 +37,8 @@ export default function Home() {
       if (body.Weight) setWeight(body.Weight);
       if (body.WeightGoal) setweightGoal(body.WeightGoal);
       if (body.DailyMeals) setDailyMeals(body.DailyMeals);
-      if (body.EatingStyle) setEatingStyle(capitalize(body.EatingStyle.trim()));;
+      if (body.EatingStyle) setEatingStyle(capitalize(body.EatingStyle.trim()));
+      if (body.ActivityLevel) setActivityLevel(body.ActivityLevel);
     }
   }, [body]);
 
@@ -63,7 +66,11 @@ export default function Home() {
     eatingStyle: yup
       .string()
       .matches(/^(I eat everything|Keto|Vegan|Vegetarian|Pescatarian|Other)$/, "Eating style is required")
-      .required("Eating style is required")
+      .required("Eating style is required"),
+    activityLevel: yup
+      .number()
+      .min(0.1, "Activity level is required")
+      .required("Activity level is required")
   });
 
   const handleGenderSelect = (value: string | string[]) => {
@@ -127,6 +134,15 @@ export default function Home() {
       .then(() => setValidationError(""))
       .catch((validationError) => setValidationError(validationError.message));
   };
+  
+  const handleActivityLevelSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? Number(value[0]) : Number(value);
+    setActivityLevel(selectedValue);
+    validationSchema
+      .validate({ gender, age, height, weight, weightGoal, dailyMeals, eatingStyle, activityLevel: selectedValue })
+      .then(() => setValidationError(""))
+      .catch((validationError) => setValidationError(validationError.message));
+  };
 
   if (error) {
     return <div className="text-white text-center mt-10">
@@ -146,7 +162,8 @@ export default function Home() {
           <WeightGoalPreferencesCard goalWeight={weightGoal}    onGoalWeightChange={handleWeightGoalSelect} validationError={validationError}/>
           <DailyMealPreferencesCard dailyMeals={Number(dailyMeals)} onOptionSelect={handleDailyMealsSelect} validationError={validationError}/>
           <EatingStylePreferencesCard eatingStyle={eatingStyle}     onOptionSelect={handleEatingStyleSelect}validationError={validationError}/>
-          </GridItem>
+          <ActivityLevelPreferencesCard activityLevel={Number(activityLevel)}onOptionSelect={handleActivityLevelSelect} validationError={validationError}/>
+        </GridItem>
       </div>
     </div>
   );
