@@ -7,6 +7,7 @@ import GenderPreferencesCard from "@/components/settings/GenderPreferencesCard";
 import AgePreferencesCard from "@/components/settings/AgePreferencesCard";
 import HeightPreferencesCard from "@/components/settings/HeightPreferencesCard";
 import WeightPreferencesCard from "@/components/settings/WeightPreferencesCard";
+import WeightGoalPreferencesCard from "@/components/settings/WeightGoalPreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
 
@@ -19,6 +20,7 @@ export default function Home() {
   const [age, setAge] = useState<number | string>(body?.Age || "");
   const [height, setHeight] = useState<number | string>(body?.Height || "");
   const [weight, setWeight] = useState<number | string>(body?.Weight || "");
+  const [weightGoal, setweightGoal] = useState<number | string>(body?.WeightGoal || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export default function Home() {
       if (body.Age) setAge(body.Age);
       if (body.Height) setHeight(body.Height);
       if (body.Weight) setWeight(body.Weight);
+      if (body.WeightGoal) setweightGoal(body.WeightGoal);
     }
   }, [body]);
 
@@ -83,6 +86,15 @@ export default function Home() {
       .catch((validationError) => setValidationError(validationError.message));
   };
 
+  const handleWeightGoalSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const newGoal = Number(e.target.value);
+  setweightGoal(newGoal);
+  validationSchema
+    .validate({ gender, age, height, weight, weightGoal: newGoal })
+    .then(() => setValidationError(""))
+    .catch((validationError) => setValidationError(validationError.message));
+  };
+
   if (error) {
     return <div className="text-white text-center mt-10">
       Something went wrong. Please try again later.
@@ -98,6 +110,7 @@ export default function Home() {
           <AgePreferencesCard     age={age}       onAgeChange={handleAgeSelect}       validationError={validationError}/>
           <HeightPreferencesCard  height={height} onHeightChange={handleHeightSelect} validationError={validationError}/>
           <WeightPreferencesCard  weight={weight} onWeightChange={handleWeightSelect} validationError={validationError}/>
+          <WeightGoalPreferencesCard goalWeight={weightGoal}onGoalWeightChange={handleWeightGoalSelect}validationError={validationError}/>
           </GridItem>
       </div>
     </div>
