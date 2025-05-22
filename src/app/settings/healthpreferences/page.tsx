@@ -12,6 +12,7 @@ import DailyMealPreferencesCard from "@/components/settings/DailyMealPreferences
 import EatingStylePreferencesCard from "@/components/settings/EatingStylePreferencesCard";
 import ActivityLevelPreferencesCard from "@/components/settings/ActivityLevelPreferencesCard";
 import HealthConcernPreferencesCard from "@/components/settings/HealthConcernPreferencesCard";
+import SleepingPatternPreferencesCard from "@/components/settings/SleepingPatternPreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
 
@@ -29,6 +30,7 @@ export default function Home() {
   const [eatingStyle, setEatingStyle] = useState<string>(body?.EatingStyle || "");
   const [activityLevel, setActivityLevel] = useState<number | string>(body?.ActivityLevel || "");
   const [healthConcerns, setHealthConcerns] = useState<string[]>([]);
+  const [sleepingPattern, setSleepingPattern] = useState<string>(body?.SleepingPattern || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -41,7 +43,9 @@ export default function Home() {
       if (body.DailyMeals) setDailyMeals(body.DailyMeals);
       if (body.EatingStyle) setEatingStyle(capitalize(body.EatingStyle.trim()));
       if (body.ActivityLevel) setActivityLevel(body.ActivityLevel);
-    }
+      //if (body.HealthConcerns) setHealthConcerns(body.HealthConcerns);
+      if (body.SleepingPattern) setSleepingPattern(capitalize(body.SleepingPattern.trim()))
+    };
   }, [body]);
 
   const validationSchema = yup.object().shape({
@@ -78,6 +82,9 @@ export default function Home() {
       .of(yup.string())
       .min(1, "Please select at least one option")
       .required("Please select at least one option"),
+    sleepingPattern: yup
+      .string()
+      .required("Please select an option"),
   });
 
   const handleGenderSelect = (value: string | string[]) => {
@@ -151,19 +158,31 @@ export default function Home() {
       .catch((validationError) => setValidationError(validationError.message));
   };
   const handleHealthConcernsSelect = (selectedValues: string[]) => {
-      if (selectedValues.includes("good")) {
-        setHealthConcerns(["good"]);
-      } else {
-        const filtered = selectedValues.filter((value) => value !== "good");
-        setHealthConcerns(filtered);
-      }
-      validationSchema
-        .validate({ gender, age, height, weight, weightGoal, dailyMeals, eatingStyle, activityLevel, healthconcerns :selectedValues })
-        .then(() => setValidationError(""))
-        .catch((validationError) => {
-          setValidationError(validationError.message);
+    if (selectedValues.includes("good")) {
+      setHealthConcerns(["good"]);
+    } else {
+      const filtered = selectedValues.filter((value) => value !== "good");
+      setHealthConcerns(filtered);
+    }
+    validationSchema
+      .validate({ gender, age, height, weight, weightGoal, dailyMeals, eatingStyle, activityLevel, healthconcerns :selectedValues })
+      .then(() => setValidationError(""))
+      .catch((validationError) => {
+        setValidationError(validationError.message);
+    });
+  };
+
+  const handleSleepingPatternSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    setSleepingPattern(selectedValue);
+    validationSchema
+      .validate({ sleepingPattern: selectedValue })
+      .then(() =>setValidationError(""))
+      .catch((validationError) => {
+        setValidationError(validationError.message);
       });
-    };
+  };
+
   if (error) {
     return <div className="text-white text-center mt-10">
       Something went wrong. Please try again later.
@@ -183,7 +202,8 @@ export default function Home() {
           <DailyMealPreferencesCard dailyMeals={Number(dailyMeals)} onOptionSelect={handleDailyMealsSelect} validationError={validationError}/>
           <EatingStylePreferencesCard eatingStyle={eatingStyle}     onOptionSelect={handleEatingStyleSelect}validationError={validationError}/>
           <ActivityLevelPreferencesCard activityLevel={Number(activityLevel)}onOptionSelect={handleActivityLevelSelect} validationError={validationError}/>
-          <HealthConcernPreferencesCard healthConcerns={healthConcerns} onOptionSelect={handleHealthConcernsSelect} validationError={validationError}/>
+          <HealthConcernPreferencesCard healthConcerns={healthConcerns}     onOptionSelect={handleHealthConcernsSelect} validationError={validationError}/>
+          <SleepingPatternPreferencesCard sleepingPattern={sleepingPattern}onOptionSelect={handleSleepingPatternSelect} validationError={validationError}/>
         </GridItem>
       </div>
     </div>
