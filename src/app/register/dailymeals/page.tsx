@@ -70,7 +70,7 @@ const dailyMeals = () => {
         },
         {
             label: "4+",
-            value: "4+",
+            value: "4",
             icon: <Image src={Noodle4} alt="4+meals" className="w-10 h-10" />,
             isSelected: dailyMeals === 4,
         }
