@@ -38,8 +38,6 @@ export default function Home() {
     handlers,
   } = useHealthPreferences(body);;
 
-  const validationSchema = SettingsHealthPreferencesSchema;
-
   if (error) {
     return <div className="text-white text-center mt-10">
       Something went wrong. Please try again later.
@@ -58,10 +56,10 @@ export default function Home() {
           <WeightGoalPreferencesCard goalWeight={weightGoal}    onGoalWeightChange={handlers.handleWeightGoalSelect} validationError={validationError}/>
           <DailyMealPreferencesCard dailyMeals={Number(dailyMeals)} onOptionSelect={handlers.handleDailyMealsSelect} validationError={validationError}/>
           <EatingStylePreferencesCard eatingStyle={eatingStyle}     onOptionSelect={handlers.handleEatingStyleSelect}validationError={validationError}/>
-          <ActivityLevelPreferencesCard activityLevel={Number(activityLevel)}onOptionSelect={handlers.handleActivityLevelSelect} validationError={validationError}/>
-          <HealthConcernPreferencesCard healthConcerns={healthConcerns}     onOptionSelect={handlers.handleHealthConcernsSelect} validationError={validationError}/>
-          <SleepingPatternPreferencesCard sleepingPattern={sleepingPattern}onOptionSelect={handlers.handleSleepingPatternSelect} validationError={validationError}/>
-          <WaterIntakePreferencesCard waterIntake={Number(waterIntake)} onOptionSelect={handlers.handleWaterIntakeSelect} validationError={validationError}/>
+          <ActivityLevelPreferencesCard activityLevel={Number(activityLevel)}onOptionSelect={handlers.handleActivityLevelSelect}  validationError={validationError}/>
+          <HealthConcernPreferencesCard   healthConcerns={healthConcerns}    onOptionSelect={handlers.handleHealthConcernsSelect} validationError={validationError}/>
+          <SleepingPatternPreferencesCard sleepingPattern={sleepingPattern}  onOptionSelect={handlers.handleSleepingPatternSelect}validationError={validationError}/>
+          <WaterIntakePreferencesCard     waterIntake={Number(waterIntake)}  onOptionSelect={handlers.handleWaterIntakeSelect}    validationError={validationError}/>
         </GridItem>
       </div>
     </div>
