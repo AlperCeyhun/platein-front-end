@@ -1,5 +1,4 @@
 "use client";
-import GridItem from "@/components/charts/GridItem";
 import Question from "@/components/register/Question";
 import FemaleIcon from "@/assets/gender/gender_female.png";
 import MaleIcon from "@/assets/gender/gender_male.png";
