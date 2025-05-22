@@ -9,6 +9,7 @@ import HeightPreferencesCard from "@/components/settings/HeightPreferencesCard";
 import WeightPreferencesCard from "@/components/settings/WeightPreferencesCard";
 import WeightGoalPreferencesCard from "@/components/settings/WeightGoalPreferencesCard";
 import DailyMealPreferencesCard from "@/components/settings/DailyMealPreferencesCard";
+import EatingStylePreferencesCard from "@/components/settings/EatingStylePreferencesCard";
 import GridItem from "@/components/charts/GridItem";
 import { capitalize } from "@/utils/data/capitalize";
 
@@ -23,6 +24,7 @@ export default function Home() {
   const [weight, setWeight] = useState<number | string>(body?.Weight || "");
   const [weightGoal, setweightGoal] = useState<number | string>(body?.WeightGoal || "");
   const [dailyMeals, setDailyMeals] = useState<number | string>(body?.DailyMeals || "");
+  const [eatingStyle, setEatingStyle] = useState<string>(body?.EatingStyle || "");
   const [validationError, setValidationError] = useState<string>("");
 
   useEffect(() => {
@@ -33,6 +35,7 @@ export default function Home() {
       if (body.Weight) setWeight(body.Weight);
       if (body.WeightGoal) setweightGoal(body.WeightGoal);
       if (body.DailyMeals) setDailyMeals(body.DailyMeals);
+      if (body.EatingStyle) setEatingStyle(capitalize(body.EatingStyle.trim()));;
     }
   }, [body]);
 
@@ -56,7 +59,11 @@ export default function Home() {
     dailyMeals: yup
       .number()
       .min(1, "Daily meals is required")
-      .required("Daily meals is required")
+      .required("Daily meals is required"),
+    eatingStyle: yup
+      .string()
+      .matches(/^(I eat everything|Keto|Vegan|Vegetarian|Pescatarian|Other)$/, "Eating style is required")
+      .required("Eating style is required")
   });
 
   const handleGenderSelect = (value: string | string[]) => {
@@ -77,11 +84,11 @@ export default function Home() {
   };
 
   const handleHeightSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setHeight(Number(e.target.value));
-  validationSchema
-    .validate({ gender, age, height: Number(e.target.value) })
-    .then(() => setValidationError(""))
-    .catch((validationError) => setValidationError(validationError.message));
+    setHeight(Number(e.target.value));
+    validationSchema
+      .validate({ gender, age, height: Number(e.target.value) })
+      .then(() => setValidationError(""))
+      .catch((validationError) => setValidationError(validationError.message));
   };
   
   const handleWeightSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,12 +101,12 @@ export default function Home() {
   };
 
   const handleWeightGoalSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const newGoal = Number(e.target.value);
-  setweightGoal(newGoal);
-  validationSchema
-    .validate({ gender, age, height, weight, weightGoal: newGoal })
-    .then(() => setValidationError(""))
-    .catch((validationError) => setValidationError(validationError.message));
+    const newGoal = Number(e.target.value);
+    setweightGoal(newGoal);
+    validationSchema
+      .validate({ gender, age, height, weight, weightGoal: newGoal })
+      .then(() => setValidationError(""))
+      .catch((validationError) => setValidationError(validationError.message));
   };
 
   const handleDailyMealsSelect = (value: string | string[]) => {
@@ -108,6 +115,15 @@ export default function Home() {
     setDailyMeals(newMeals);
     validationSchema
       .validate({ gender, age, height, weight, weightGoal, dailyMeals: newMeals })
+      .then(() => setValidationError(""))
+      .catch((validationError) => setValidationError(validationError.message));
+  };
+
+  const handleEatingStyleSelect = (value: string | string[]) => {
+    const selectedValue = Array.isArray(value) ? value[0] : value;
+    setEatingStyle(selectedValue);
+    validationSchema
+      .validate({ gender, age, height, weight, weightGoal, dailyMeals, eatingStyle: selectedValue })
       .then(() => setValidationError(""))
       .catch((validationError) => setValidationError(validationError.message));
   };
@@ -129,6 +145,7 @@ export default function Home() {
           <WeightPreferencesCard  weight={weight} onWeightChange={handleWeightSelect} validationError={validationError}/>
           <WeightGoalPreferencesCard goalWeight={weightGoal}    onGoalWeightChange={handleWeightGoalSelect} validationError={validationError}/>
           <DailyMealPreferencesCard dailyMeals={Number(dailyMeals)} onOptionSelect={handleDailyMealsSelect} validationError={validationError}/>
+          <EatingStylePreferencesCard eatingStyle={eatingStyle}     onOptionSelect={handleEatingStyleSelect}validationError={validationError}/>
           </GridItem>
       </div>
     </div>
