@@ -113,6 +113,9 @@ export function useHealthPreferences(body: any) {
     setWaterIntake(selectedValue);
     validate({ waterIntake: selectedValue });
   };
+  const handleSavePreferences = async () => {
+    console.log("Saving preferences...");
+  }
 
   return {
     gender,
@@ -139,6 +142,7 @@ export function useHealthPreferences(body: any) {
       handleHealthConcernsSelect,
       handleSleepingPatternSelect,
       handleWaterIntakeSelect,
+      handleSavePreferences,
     },
   };
 }

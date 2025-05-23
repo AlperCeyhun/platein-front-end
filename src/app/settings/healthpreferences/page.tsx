@@ -17,6 +17,7 @@ import WaterIntakePreferencesCard from "@/components/settings/WaterIntakePrefere
 import SettingsHealthPreferencesSchema from "@/components/settings/SettingsHealthPreferencesSchema";
 import GridItem from "@/components/charts/GridItem";
 import { useHealthPreferences } from "@/components/settings/useHealthPreferences";
+import EditButton from "@/components/account/EditButton";
 
 
 export default function Home() {
@@ -60,6 +61,7 @@ export default function Home() {
           <HealthConcernPreferencesCard   healthConcerns={healthConcerns}    onOptionSelect={handlers.handleHealthConcernsSelect} validationError={validationError}/>
           <SleepingPatternPreferencesCard sleepingPattern={sleepingPattern}  onOptionSelect={handlers.handleSleepingPatternSelect}validationError={validationError}/>
           <WaterIntakePreferencesCard     waterIntake={Number(waterIntake)}  onOptionSelect={handlers.handleWaterIntakeSelect}    validationError={validationError}/>
+          <EditButton label="Save Preferences" onClick={handlers.handleSavePreferences}/>
         </GridItem>
       </div>
     </div>
