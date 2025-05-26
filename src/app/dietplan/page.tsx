@@ -96,10 +96,10 @@ export default function Home() {
         </GridItem>
       </div>
       <div className="ml-8">
-        <GridItem bgColor="bg-white" hasShadow={true} size="h-full w-full" other="p-6" isFlexCol={true} notCenter={true}>
+        <GridItem bgColor="bg-white" hasShadow={true} size="w-full" other="p-6" isFlexCol={true} notCenter={true}>
           <h2 className="text-xl font-semibold mb-4">Meal Plan</h2>
           <p className="text-gray-700 mb-4">Today's meal plan is here.</p>
-          <div className="overflow-y-auto max-h-80">
+          <div className="overflow-y-auto max-h-800">
             {dailyMealPlan && Array.isArray(dailyMealPlan.menus) ? (
               dailyMealPlan.menus.map((menu: any, menuIdx: number) => (
                 <div key={menu.id || menuIdx} className="mb-6">
