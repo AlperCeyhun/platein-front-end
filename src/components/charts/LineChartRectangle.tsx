@@ -23,18 +23,33 @@ const CustomizedRectangle = (props: any) => {
   const firstSeries = formattedGraphicalItems[0];
   const secondSeries = formattedGraphicalItems[1];
 
-  return firstSeries?.props?.points.map((firstSeriesPoint: any, index: number) => {
-    const secondSeriesPoint = secondSeries?.props?.points[index];
-    const yDifference = firstSeriesPoint.y - secondSeriesPoint.y;
+  const threshold = 200; // Define the threshold for color change
+
+  return firstSeries?.props?.points.map((firstPoint: any, index: number) => {
+    const secondPoint = secondSeries?.props?.points[index];
+
+    if (!secondPoint) return null;
+
+    const yDiff = firstPoint.y - secondPoint.y;
+    const height = Math.abs(yDiff);
+    const x = secondPoint.x - 5;
+    const y = yDiff > 0 ? secondPoint.y : firstPoint.y;
+
+    const valueDiff = Math.abs(firstPoint.value - secondPoint.value);
+
+    const fill =
+      valueDiff <= threshold
+        ? "green"
+        : "red";
 
     return (
       <Rectangle
-        key={firstSeriesPoint.payload.name}
+        key={firstPoint.payload.name}
         width={10}
-        height={Math.abs(yDifference)}
-        x={secondSeriesPoint.x - 5}
-        y={yDifference > 0 ? secondSeriesPoint.y : firstSeriesPoint.y}
-        fill={yDifference > 0 ? "red" : yDifference < 0 ? "green" : "none"}
+        height={height}
+        x={x}
+        y={y}
+        fill={fill}
       />
     );
   });
@@ -46,8 +61,6 @@ const LineChartRectangle: React.FC<CustomLineChartProps> = ({ data, dataKeys }) 
   return (
     <ResponsiveContainer width="100%" height={500}>
       <LineChart
-        width={500}
-        height={300}
         data={data}
         margin={{
           top: 5,
