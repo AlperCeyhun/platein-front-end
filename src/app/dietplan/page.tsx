@@ -1,16 +1,20 @@
 "use client";
-import { DailyMealPlan } from "@/models/dailyMealPlan";
 import GridItem from "@/components/charts/GridItem";
-import SettingsButton from "@/components/dietplan/SettingsButton";
 import React, { useEffect, useState } from "react";
 import meal4 from "@/assets/meal/meal4.png";
 import Image from "next/image";
-import { Settings, ArrowRight } from "lucide-react";
+import { useWindowSize } from '@react-hook/window-size';
+import dynamic from "next/dynamic";
+import {toast, Toaster}  from 'react-hot-toast';
+
+const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
 export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [dailyMealPlan, setDailyMealPlan] = useState<any>(null);
-
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [width, height] = useWindowSize();
+  
   const menuMessages = [
     "You can start your day with this meal",
     "A great option to power through midday",
@@ -76,16 +80,26 @@ export default function Home() {
         const data = await response.json();
         console.log("Daily Meal Plan:", data);
         setDailyMealPlan(data);
+        toast.success("Meal plan loaded successfully!");
       } catch (err: any) {
-        console.error("Error fetching daily meal plan:", err);
+        toast.error("Failed to load meal plan.");
       }
     };
 
     fetchDailyMealPlan();
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowConfetti(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="flex flex-col items-center pt-6 w-full">
+      {showConfetti && <Confetti width={width} height={height} />}
       <h2 className="text-4xl font-extrabold mt-8 text-center tracking-wide mb-4">Meal Plan</h2>
       <div className="w-80 h-1 bg-indigo-600 rounded-full mb-4" />
       <p className="text-lg text-black text-center mb-6">Today's meal plan is here.</p>
@@ -102,7 +116,8 @@ export default function Home() {
               isFlexCol={true}
               notCenter={true}
             >
-              <h3 className="font-semibold text-lg mb-2">Menu {menuIdx + 1}</h3>
+              <h3 className="font-semibold text-lg">Menu {menuIdx + 1}</h3>
+              <div className="w-60 h-0.5 bg-gray-700 rounded-md mb-4" />
               <h6 className="text-gray-500 mb-4">{menuMessages[menuIdx]}</h6>
               <ul>
                 {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => {
@@ -131,6 +146,7 @@ export default function Home() {
       ) : (
         <p className="text-gray-400">No menus available.</p>
       )}
+      <Toaster position="bottom-right"/>
     </div>
   );
 }
