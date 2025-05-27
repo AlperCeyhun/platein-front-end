@@ -52,7 +52,8 @@ const MealList: React.FC = () => {
   return (
     <GridItem isFlexCol={true} size="w-fit h-fit" bgColor="bg-white/80" hasShadow={true} other="backdrop-blur-sm rounded-2xl">
       <div className="w-full max-w-xl">
-        <h1 className="text-2xl font-bold text-left mb-2">Meals</h1>
+        <h1 className="text-2xl font-bold mb-2 text-center">Meals</h1>
+        <h6 className="text-lg text-gray-600 mb-6 text-center">You can add the meals you ate today from here!</h6>
         <hr className="border-t-2 border-black mb-8" />
         {feedback && (
           <div

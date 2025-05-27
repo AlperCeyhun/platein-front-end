@@ -86,8 +86,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center pt-6 w-full">
-      <h2 className="text-xl font-semibold mb-4">Meal Plan</h2>
-      <p className="text-gray-700 mb-6">Today's meal plan is here.</p>
+      <h2 className="text-4xl font-extrabold mt-8 text-center tracking-wide mb-4">Meal Plan</h2>
+      <div className="w-80 h-1 bg-indigo-600 rounded-full mb-4" />
+      <p className="text-lg text-black text-center mb-6">Today's meal plan is here.</p>
 
       {dailyMealPlan && Array.isArray(dailyMealPlan.menus) ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl px-6">
