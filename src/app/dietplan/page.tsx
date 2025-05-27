@@ -11,6 +11,13 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [dailyMealPlan, setDailyMealPlan] = useState<any>(null);
 
+  const menuMessages = [
+    "You can start your day with this meal",
+    "A great option to power through midday",
+    "Perfect for a light evening meal",
+    "End your day with something nutritious"
+  ];
+
   useEffect(() => {
     const fetchDailyCalories = async () => {
       try {
@@ -78,38 +85,51 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-row justify-center items-center pt-6 w-full">
-      <div className="ml-8">
-        <GridItem bgColor="bg-white" hasShadow={true} size="w-full" other="p-6" isFlexCol={true} notCenter={true}>
-          <h2 className="text-xl font-semibold mb-4">Meal Plan</h2>
-          <p className="text-gray-700 mb-4">Today's meal plan is here.</p>
-          <div className="overflow-y-auto max-h-800">
-            {dailyMealPlan && Array.isArray(dailyMealPlan.menus) ? (
-              dailyMealPlan.menus.map((menu: any, menuIdx: number) => (
-                <div key={menu.id || menuIdx} className="mb-6">
-                  <h3 className="font-semibold text-lg mb-2">Menu {menuIdx + 1}</h3>
-                  <ul>
-                    {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => {
-                      const imageSrc = meal.defaultImage
-                        ? `data:image/jpeg;base64,${meal.defaultImage}`
-                        : meal4;
-                      return (
-                        <li key={meal.mealID || mealIdx} className="flex items-center mb-2">
-                          <Image src={imageSrc} alt="Meal" width={40} height={40} className="rounded mr-3" />
-                          <span className="font-medium mr-2">{meal.mealName}</span>
-                          <span className="text-gray-500">({meal.calories} kcal)</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-400">No menus available.</p>
-            )}
-          </div>
-        </GridItem>
-      </div>
+    <div className="flex flex-col items-center pt-6 w-full">
+      <h2 className="text-xl font-semibold mb-4">Meal Plan</h2>
+      <p className="text-gray-700 mb-6">Today's meal plan is here.</p>
+
+      {dailyMealPlan && Array.isArray(dailyMealPlan.menus) ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl px-6">
+          {dailyMealPlan.menus.map((menu: any, menuIdx: number) => (
+            <GridItem
+              key={menu.id || menuIdx}
+              bgColor="bg-white"
+              hasShadow={true}
+              size="w-full min-h-[300px]"
+              other="p-6"
+              isFlexCol={true}
+              notCenter={true}
+            >
+              <h3 className="font-semibold text-lg mb-2">Menu {menuIdx + 1}</h3>
+              <h6 className="text-gray-500 mb-4">{menuMessages[menuIdx]}</h6>
+              <ul>
+                {Array.isArray(menu.meals) && menu.meals.map((meal: any, mealIdx: number) => {
+                  const imageSrc = meal.defaultImage
+                    ? `data:image/jpeg;base64,${meal.defaultImage}`
+                    : meal4;
+
+                  return (
+                    <li key={meal.mealID || mealIdx} className="flex items-center mb-2">
+                      <Image
+                        src={imageSrc}
+                        alt="Meal"
+                        width={40}
+                        height={40}
+                        className="rounded mr-3"
+                      />
+                      <span className="font-medium mr-2">{meal.mealName}</span>
+                      <span className="text-gray-500">({meal.calories} kcal)</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </GridItem>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-400">No menus available.</p>
+      )}
     </div>
   );
 }
