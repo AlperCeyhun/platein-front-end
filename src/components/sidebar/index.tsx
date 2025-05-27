@@ -33,7 +33,7 @@ const items: ISidebarItem[] = [
     icon: CircleUserRound,
   },
   {
-    name: "My Meals",
+    name: "My Meals today",
     path: "/mymeals",
     icon: Beef,
   },
