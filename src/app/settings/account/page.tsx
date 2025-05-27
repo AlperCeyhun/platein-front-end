@@ -160,32 +160,20 @@ export default function AccountSettingsForm() {
             id="firstName"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
-            placeholder={firstName}
-          />
+            placeholder={firstName}/>
           <LabeledInput
             label="Last Name"
             id="lastName"
             value={lastName}
             onChange={e => setLastName(e.target.value)}
-            placeholder={lastName}
-          />
+            placeholder={lastName}/>
           <LabeledInput
             label="Email"
             id="email"
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder={email}
-          />
-          {!showPasswordFields && (
-            <button
-              type="button"
-              className="w-full py-2 px-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none flex justify-center items-center"
-              onClick={() => setShowPasswordFields(true)}
-            >
-              <Settings2 className="mr-2" size={16}/>Change Password
-            </button>
-          )}
+            placeholder={email}/>
           {showPasswordFields && (
             <>
               <LabeledInput
@@ -194,38 +182,54 @@ export default function AccountSettingsForm() {
                 type="password"
                 value={currentPassword}
                 onChange={e => setCurrentPassword(e.target.value)}
-                placeholder="Current Password"
-              />
+                placeholder="Current Password"/>
               <LabeledInput
                 label="New Password"
                 id="newPassword"
                 type="password"
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
-                placeholder="New Password"
-              />
+                placeholder="New Password"/>
               <LabeledInput
                 label="Confirm New Password"
                 id="confirmNewPassword"
                 type="password"
                 value={confirmNewPassword}
                 onChange={e => setConfirmNewPassword(e.target.value)}
-                placeholder="Confirm New Password"
-              />
+                placeholder="Confirm New Password"/>
             </>
           )}
-          <button type="submit" className="w-full py-2 px-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none flex justify-center items-center">
-            <SaveIcon className="mr-2" size={16} />
-            Save Changes
-          </button>
+          {!showPasswordFields ? (
+            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
+              <button
+                type="button"
+                className="w-full sm:w-1/2 py-2 px-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none flex justify-center items-center"
+                onClick={() => setShowPasswordFields(true)}>
+                <Settings2 className="mr-2" size={16} />
+                Change Password
+              </button>
+              <button
+                type="submit"
+                className="w-full sm:w-1/2 py-2 px-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none flex justify-center items-center">
+                <SaveIcon className="mr-2" size={16} />
+                Save Changes
+              </button>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-2 px-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none flex justify-center items-center">
+              <SaveIcon className="mr-2" size={16} />
+              Save Changes
+            </button>
+          )}
           {feedback && (
             <div
               className={`mt-4 p-3 rounded text-center text-sm ${
                 feedback.type === "success"
                   ? "bg-green-100 text-green-800 border border-green-300"
                   : "bg-red-100 text-red-800 border border-red-300"
-              }`}
-            >
+              }`}>
               {feedback.message}
             </div>
           )}
