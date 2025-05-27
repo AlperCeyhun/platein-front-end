@@ -15,7 +15,7 @@ export default function login() {
       <div className="max-w-md w-full space-y-8">
           <div>
             <div className="flex justify-center">
-              <img src="../favicon.ico" width={160} height={160}/>
+              <img src="../favicon.ico" className="rounded-full" width={160} height={160}/>
             </div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Tabaq Diet Tracker</h2>
           </div>
