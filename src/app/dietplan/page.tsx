@@ -90,11 +90,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowConfetti(false);
-    }, 3000);
+    const hasSeenConfetti = localStorage.getItem("hasSeenConfetti");
 
-    return () => clearTimeout(timer);
+    if (!hasSeenConfetti) {
+      setShowConfetti(true);
+      localStorage.setItem("hasSeenConfetti", "true");
+
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowConfetti(false);
+    }
   }, []);
 
   return (
