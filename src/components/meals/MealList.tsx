@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import MealItem from "@/components/meals/MealItem";
+import GridItem from "@/components/charts/GridItem";
 
 interface UserPastMeal {
   mealName: string;
@@ -49,7 +50,7 @@ const MealList: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen">
+    <GridItem isFlexCol={true} size="w-fit h-fit" bgColor="bg-white/80" hasShadow={true} other="backdrop-blur-sm">
       <div className="w-full max-w-xl">
         <h1 className="text-2xl font-bold text-left mb-2">Meals</h1>
         <hr className="border-t-2 border-black mb-8" />
@@ -74,7 +75,7 @@ const MealList: React.FC = () => {
           ))}
         </ul>
       </div>
-    </div>
+    </GridItem>
   );
 };
 
