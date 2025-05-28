@@ -23,7 +23,7 @@ const BodyDetails = () => {
   }
 
   return (
-    <GridItem bgColor="bg-white" hasShadow={true} size="h-192 w-96" other="p-6" isFlexCol={true} notCenter={true}>
+    <GridItem bgColor="bg-white/80" hasShadow={true} size="h-192 w-96" other="p-6 backdrop-blur-md" isFlexCol={true} notCenter={true}>
       <h1 className="text-3xl font-semibold text-center mb-6">Health Preferences</h1>
       <div className="space-y-3 text-sm text-gray-700">
         <div>

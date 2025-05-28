@@ -111,17 +111,17 @@ export default function Home() {
       {showConfetti && <Confetti width={width} height={height} />}
       <h2 className="text-4xl font-extrabold mt-8 text-center tracking-wide mb-4">Meal Plan</h2>
       <div className="w-80 h-1 bg-indigo-600 rounded-full mb-4" />
-      <p className="text-lg text-black text-center mb-6">Today's meal plan is here.</p>
+      <p className="text-lg text-black text-center mb-6">Today's generated meal plan!.</p>
 
       {dailyMealPlan && Array.isArray(dailyMealPlan.menus) ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl px-6">
           {dailyMealPlan.menus.map((menu: any, menuIdx: number) => (
             <GridItem
               key={menu.id || menuIdx}
-              bgColor="bg-white"
+              bgColor="bg-white/80"
               hasShadow={true}
               size="w-full min-h-[300px]"
-              other="p-6"
+              other="p-6 backdrop-blur-md"
               isFlexCol={true}
               notCenter={true}
             >

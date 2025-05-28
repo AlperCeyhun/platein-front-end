@@ -70,7 +70,7 @@ const AccountDetails = () => {
   }
 
   return (
-    <GridItem bgColor="bg-white" hasShadow={true} size="h-96 w-96" other="p-6" isFlexCol={true} notCenter={true}>
+    <GridItem bgColor="bg-white/80" hasShadow={true} size="h-96 w-96" other="p-6 backdrop-blur-md" isFlexCol={true} notCenter={true}>
       <h1 className="text-3xl font-semibold text-center mb-6">Account Details</h1>
       <div className="flex items-center space-x-4 mb-6">
         <CircleUserRound width={48} height={48}/>

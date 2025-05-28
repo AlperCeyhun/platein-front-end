@@ -62,14 +62,16 @@ export default function Home() {
       ? orderWeeklyData(calorieData)
       : [];
   return (
-    <div className="flex flex-col gap-10 p-12 w-full max-w-[1410px] ml-auto mr-auto">
+    <div className="flex flex-col gap-5 p-12 w-full max-w-[1410px] ml-auto mr-auto">
+      <h2 className="text-4xl font-extrabold mt-8 text-center tracking-wide">My Nutrition</h2>
+      <div className="w-80 h-1 bg-indigo-600 rounded-full mb-4 mx-auto"/>
+      <p className="text-lg text-black text-center mb-6">You can track your calorie through the day and week from here!.</p>
       <div className="flex flex-col lg:flex-row gap-10 w-full">
         <div className="flex-1 min-w-[60%]">
           <GridItem title="Weekly Progress" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-full h-full">
             <LineChartRectangle data={orderedCalorieData} dataKeys={{ firstSeries: "value", secondSeries: "goalvalue" }} />
           </GridItem>
         </div>
-
         <div className="w-full lg:w-[30%]">
           <GridItem bgColor="bg-white" isFlexCol={true} hasShadow={true} size="w-full h-fit">
             <GoalProximityChecker calorieData={orderedCalorieData} setIsCloseToGoal={setIsCloseToGoal} />
@@ -78,7 +80,6 @@ export default function Home() {
           </GridItem>
         </div>
       </div>
-
       <div className="w-full">
         <GridItem title="Daily Nutrition" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-fit h-fit">
           <PieChart data={nutritionData && nutritionData.length > 0 ? nutritionData : Emptynutritiondata} />
