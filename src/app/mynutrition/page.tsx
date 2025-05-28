@@ -63,7 +63,7 @@ export default function Home() {
       : [];
   return (
     <div className="flex flex-col gap-5 p-12 w-full max-w-[1410px] ml-auto mr-auto">
-      <h2 className="text-4xl font-extrabold mt-8 text-center tracking-wide">My Nutrition</h2>
+      <h2 className="text-4xl font-extrabold text-center tracking-wide">My Nutrition</h2>
       <div className="w-80 h-1 bg-indigo-600 rounded-full mb-4 mx-auto"/>
       <p className="text-lg text-black text-center mb-6">You can track your calorie through the day and week from here!.</p>
       <div className="flex flex-col lg:flex-row gap-10 w-full">
