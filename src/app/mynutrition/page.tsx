@@ -7,6 +7,8 @@ import { orderWeeklyData } from "@/components/charts/OrderWeeklyData";
 import Emptynutritiondata from "@/testdata/EmptyNutritionData";
 import TestMealDataWeekly2 from "@/testdata/TestMealDataWeekly2";
 import GoalProximityChecker from "@/components/mynutrition/GoalProximityChecker";
+import { useBodyDetails } from "@/utils/api/useBodyDetails";
+import WeightGoalMessage from "@/components/mynutrition/WeightGoalMessage";
 
 
 const ShowCatGif = dynamic(() => import("@/components/mynutrition/ShowCatGif"), { ssr: false });
@@ -19,6 +21,7 @@ export default function Home() {
     { day_of_week: string; calorie_need: number; consumed_calories: number }[] | null
   >(null);
   const [isCloseToGoal, setIsCloseToGoal] = React.useState(false);
+  const { body, error } = useBodyDetails();
 
   useEffect(() => {
     const fetchDailyNutritionData = async () => {
@@ -69,6 +72,7 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row gap-10 w-full">
         <div className="flex-1 min-w-[60%]">
           <GridItem title="Weekly Progress" isFlexCol={true} hasShadow={true} bgColor="bg-white" size="w-full h-full">
+            <WeightGoalMessage currentWeight={body?.Weight} targetWeight={body?.WeightGoal} />
             <LineChartRectangle data={orderedCalorieData} dataKeys={{ firstSeries: "value", secondSeries: "goalvalue" }} />
           </GridItem>
         </div>
