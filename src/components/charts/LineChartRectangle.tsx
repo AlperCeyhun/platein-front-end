@@ -23,7 +23,7 @@ const CustomizedRectangle = (props: any) => {
   const firstSeries = formattedGraphicalItems[0];
   const secondSeries = formattedGraphicalItems[1];
 
-  const threshold = 200; // Define the threshold for color change
+  const threshold = 300; // Define the threshold for color change
 
   return firstSeries?.props?.points.map((firstPoint: any, index: number) => {
     const secondPoint = secondSeries?.props?.points[index];
